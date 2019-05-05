@@ -23,6 +23,8 @@ extern SPI_HandleTypeDef hspi2;
 
 void init_SSD1351(void);
 
-void write_SSD1351(bool cmd, uint8_t *data, uint32_t len);
+void write_SSD1351Command(uint8_t data);
+
+void write_SSD1351Data(uint8_t data, uint32_t len);
 
 #endif //SSD1351_H
