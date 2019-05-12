@@ -23,6 +23,8 @@ extern SPI_HandleTypeDef hspi2;
 
 #ifdef OLED_128x128
 #define RAM_SIZE 16384
+#define COLUMNS 128
+#define ROWS 128
 #endif // OLED_128x128
 
 //SSD1351 Regs

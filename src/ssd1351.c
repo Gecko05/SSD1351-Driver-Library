@@ -97,6 +97,21 @@ void init_SSD1351(void){
   * @brief  Turns off the SSD1351 OLED Display
   * @retval None
   */
-void turn_off_SSD1351(void){
+void stop_SSD1351(void){
   write_SSD1351Command(SSD1351_CMD_DISPLAYOFF);
+}
+
+/**
+  * @brief  Turns off the SSD1351 OLED Display
+  * @param  color: Unsigned int16 containing color code
+  * @retval None
+  */
+void fill_SSD1351(uint16_t color){
+  write_SSD1351Command(SSD1351_CMD_WRITERAM);
+  for (int c = 0; c < COLUMNS; c++){
+    for (int r = 0; r < ROWS; r++){
+      wirte_SSD1351Data(color);
+    }
+  }
+  write_SSD1351Command(SSD1351_CMD_STOPSCROLL);
 }
