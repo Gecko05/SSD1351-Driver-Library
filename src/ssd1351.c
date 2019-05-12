@@ -110,8 +110,20 @@ void fill_SSD1351(uint16_t color){
   write_SSD1351Command(SSD1351_CMD_WRITERAM);
   for (int c = 0; c < COLUMNS; c++){
     for (int r = 0; r < ROWS; r++){
-      wirte_SSD1351Data(color);
+      write_SSD1351Data((uint8_t)(color >> 8));
+      write_SSD1351Data((uint8_t)(color));
     }
   }
-  write_SSD1351Command(SSD1351_CMD_STOPSCROLL);
+  //write_SSD1351Command(SSD1351_CMD_STOPSCROLL);
+}
+
+/**
+  * @brief  Updates the screen RAM
+  * @retval None
+  */
+void update_SSD1351(void){
+  for(int i = 0; i < RAM_SIZE; i++){
+    write_SSD1351Data((uint8_t)(displayRAM[i] >> 8));
+    write_SSD1351Data((uint8_t)displayRAM[i]);
+  }
 }

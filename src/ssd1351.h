@@ -60,9 +60,9 @@ extern SPI_HandleTypeDef hspi2;
 #define SSD1351_CMD_STOPSCROLL      0x9E
 #define SSD1351_CMD_STARTSCROLL     0x9F
 
-#define RED 0x001F
-#define BLUE 0xF800
-#define GREEN 0x07E0
+#define COLOR_RED 0x001F
+#define COLOR_BLUE 0xF800
+#define COLOR_GREEN 0x07E0
 
 void init_SSD1351(void);
 
