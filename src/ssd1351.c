@@ -127,3 +127,8 @@ void update_SSD1351(void){
     write_SSD1351Data((uint8_t)displayRAM[i]);
   }
 }
+
+void pixel_SSD1351(uint16_t color, uint8_t x, uint8_t y){
+  a = x + (y * 127);
+
+}
