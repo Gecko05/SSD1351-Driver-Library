@@ -1,0 +1,17 @@
+---
+:source:
+  :path: test
+  :file: test_ssd1351.c
+:successes:
+- :test: test_write_pixel_SSD1351
+  :line: 28
+  :message: ''
+:failures: []
+:ignores: []
+:counts:
+  :total: 1
+  :passed: 1
+  :failed: 0
+  :ignored: 0
+:stdout: []
+:time: 0.002747557999100536

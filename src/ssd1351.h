@@ -4,7 +4,13 @@
 #include "stm32l1xx_hal.h"
 #include "stdbool.h"
 
-//--------- Configure this
+#ifdef TEST
+    #define STATIC
+#else /* ifdef TEST */
+    #define STATIC  static
+#endif /* ifdef TEST */
+
+/*------- CONFIGURE THIS TO YOUR OWN HARDWARE -------*/
 // PC0 = RESET      PC1 = D/C#      PB0 = CS
 
 #define RESET_PORT GPIOC
@@ -19,7 +25,7 @@
 
 extern SPI_HandleTypeDef hspi2;
 #define HSSD &hspi2
-//------------------------
+/*--------------------------------------------------*/
 
 #ifdef OLED_128x128
 #define RAM_SIZE 16384
@@ -27,7 +33,7 @@ extern SPI_HandleTypeDef hspi2;
 #define ROWS 128
 #endif // OLED_128x128
 
-//SSD1351 Regs
+//          SSD1351 Commands
 #define SSD1351_CMD_SETCOLUMN       0x15
 #define SSD1351_CMD_SETROW          0x75
 #define SSD1351_CMD_WRITERAM        0x5C
@@ -60,11 +66,14 @@ extern SPI_HandleTypeDef hspi2;
 #define SSD1351_CMD_STOPSCROLL      0x9E
 #define SSD1351_CMD_STARTSCROLL     0x9F
 
+//           Colors
 #define COLOR_RED 0x001F
 #define COLOR_BLUE 0xF800
 #define COLOR_GREEN 0x07E0
 
 void init_SSD1351(void);
+
+void stop_SSD1351(void);
 
 void turn_off_SSD1351(void);
 
@@ -72,5 +81,8 @@ void write_SSD1351Command(uint8_t data);
 
 void write_SSD1351Data(uint8_t data);
 
+void fill_SSD1351(uint16_t color);
+
+void write_pixel_SSD1351(uint16_t color, uint8_t x, uint8_t y);
 
 #endif //SSD1351_H

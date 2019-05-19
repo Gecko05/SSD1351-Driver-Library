@@ -1,7 +1,6 @@
 #include "ssd1351.h"
-#include "cmsis_os.h"
 
-static uint16_t displayRAM[RAM_SIZE];
+STATIC uint16_t displayRAM[RAM_SIZE];
 
 /**
   * @brief  Writes data to the SSD1351 OLED Display
@@ -128,7 +127,17 @@ void update_SSD1351(void){
   }
 }
 
-void pixel_SSD1351(uint16_t color, uint8_t x, uint8_t y){
-  a = x + (y * 127);
-
+/**
+ * @brief Writes a pixel data to the screen RAM
+ * @param color: Unsigned int16 containing color code
+ * @param x: Pixel's horizontal position
+ * @param y: Pixel's vertical position
+ * @retval None
+ */
+void write_pixel_SSD1351(uint16_t color, uint8_t x, uint8_t y){
+  if ( x > 127 || y > 127){
+    return;
+  }
+  int a = x + (y * 128);
+  displayRAM[a] = color;
 }
