@@ -3,6 +3,7 @@
 
 #include "stm32l1xx_hal.h"
 #include "stdbool.h"
+#include "stdlib.h"
 
 #ifdef TEST
     #define STATIC
@@ -19,7 +20,7 @@
 #define DC_PIN  GPIO_PIN_1
 #define CS_PORT GPIOB
 #define CS_PIN GPIO_PIN_0
-#define SPI_TIMEOUT 100
+#define SPI_TIMEOUT 1
 
 #define OLED_128x128
 
@@ -70,6 +71,8 @@ extern SPI_HandleTypeDef hspi2;
 #define COLOR_RED 0x001F
 #define COLOR_BLUE 0xF800
 #define COLOR_GREEN 0x07E0
+#define COLOR_BLACK 0x0000
+#define COLOR_WHITE 0xFFFF
 
 void init_SSD1351(void);
 
@@ -77,12 +80,14 @@ void stop_SSD1351(void);
 
 void turn_off_SSD1351(void);
 
-void write_SSD1351Command(uint8_t data);
-
-void write_SSD1351Data(uint8_t data);
-
 void fill_SSD1351(uint16_t color);
 
-void write_pixel_SSD1351(uint16_t color, uint8_t x, uint8_t y);
+void write_pixel_SSD1351(uint8_t x, uint8_t y, uint16_t color);
+
+void update_SSD1351(void);
+
+void draw_line_SSD1351(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t color);
+
+void draw_rectangle_SSD1351(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color);
 
 #endif //SSD1351_H
