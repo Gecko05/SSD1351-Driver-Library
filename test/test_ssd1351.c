@@ -34,8 +34,6 @@ void tearDown(void){
 
 }
 
-
-
 void test_write_pixel_SSD1351(void){
 /* Test with various positions */
 	update_pixel_params(120, 0, 0xFFAA);

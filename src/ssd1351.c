@@ -268,7 +268,7 @@ void draw_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t colo
  * @para y0: starting y coordinate
  * @param w: width of the rectangle
  * @oaram h: height of the rectangle
- * @color: color for the border
+ * @color: color for the rectangle
  * @reval None
  */
 void draw_filled_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color){
