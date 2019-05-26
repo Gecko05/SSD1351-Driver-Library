@@ -82,12 +82,14 @@ void turn_off_SSD1351(void);
 
 void fill_SSD1351(uint16_t color);
 
-void write_pixel_SSD1351(uint8_t x, uint8_t y, uint16_t color);
+void write_pixel_SSD1351(int16_t x, int16_t y, uint16_t color);
 
 void update_SSD1351(void);
 
-void draw_line_SSD1351(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t color);
+void draw_line_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
 
-void draw_rectangle_SSD1351(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color);
+void draw_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+
+void draw_filledrect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
 
 #endif //SSD1351_H

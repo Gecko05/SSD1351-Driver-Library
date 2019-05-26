@@ -139,7 +139,7 @@ void update_SSD1351(void){
  * @param y: Pixel's vertical position
  * @retval None
  */
-void write_pixel_SSD1351(uint8_t x, uint8_t y, uint16_t color){
+void write_pixel_SSD1351(int16_t x, int16_t y, uint16_t color){
   if ( x > 127 || y > 127){
     return;
   }
@@ -150,7 +150,7 @@ void write_pixel_SSD1351(uint8_t x, uint8_t y, uint16_t color){
 
 /*  LINE DRAWING FUNCTIONS */
 
-static void draw_line_low_SSD1351(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t color){
+static void draw_line_low_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
   int16_t dx = x1 - x0;
   int16_t dy = y1 - y0;
   int16_t yi = 1;
@@ -184,7 +184,7 @@ static void draw_line_low_SSD1351(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1
 
 }
 
-static void draw_line_high_SSD1351(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t color){
+static void draw_line_high_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
   int16_t dx = x1 - x0;
   int16_t dy = y1 - y0;
   int16_t xi = 1;
@@ -226,7 +226,7 @@ static void draw_line_high_SSD1351(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y
  * @color: color to use to draw the line
  * @reval None
  */
-void draw_line_SSD1351(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t color){
+void draw_line_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
   if (abs(y1 - y0) < abs(x1 - x0)){
     if (x0 > x1){
       draw_line_low_SSD1351(x1, y1, x0, y0, color);
@@ -255,9 +255,26 @@ void draw_line_SSD1351(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t 
  * @color: color for the border
  * @reval None
  */
-void draw_rectangle_SSD1351(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color){
+void draw_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color){
   draw_line_SSD1351(x, y, x + w, y, color);
   draw_line_SSD1351(x + w, y, x + w, y + h, color);
   draw_line_SSD1351(x + w, y + h, x, y + h, color);
   draw_line_SSD1351(x, y + h, x, y, color);
+}
+
+/*
+ * @brief Draws a filled rectangle with specified dimensions into display RAM
+ * @param x0: starting x coordinate
+ * @para y0: starting y coordinate
+ * @param w: width of the rectangle
+ * @oaram h: height of the rectangle
+ * @color: color for the border
+ * @reval None
+ */
+void draw_filledrect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color){
+  for (int i = x; i < x + w; i++){
+    for (int j = y; j < y + h; j++){
+      write_pixel_SSD1351(i, j, color);
+    }
+  }
 }
