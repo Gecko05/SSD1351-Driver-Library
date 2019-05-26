@@ -4,6 +4,7 @@
 #include "stm32l1xx_hal.h"
 #include "stdbool.h"
 #include "stdlib.h"
+#include "stdio.h"
 
 #ifdef TEST
     #define STATIC
@@ -90,6 +91,6 @@ void draw_line_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t 
 
 void draw_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
 
-void draw_filledrect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+void draw_filled_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
 
 #endif //SSD1351_H

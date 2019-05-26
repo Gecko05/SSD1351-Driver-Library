@@ -140,7 +140,7 @@ void update_SSD1351(void){
  * @retval None
  */
 void write_pixel_SSD1351(int16_t x, int16_t y, uint16_t color){
-  if ( x > 127 || y > 127){
+  if ( x > 127 || y > 127 || x < 0 || y < 0){
     return;
   }
   int a = x + (y * 128);
@@ -271,7 +271,7 @@ void draw_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t colo
  * @color: color for the border
  * @reval None
  */
-void draw_filledrect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color){
+void draw_filled_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color){
   for (int i = x; i < x + w; i++){
     for (int j = y; j < y + h; j++){
       write_pixel_SSD1351(i, j, color);

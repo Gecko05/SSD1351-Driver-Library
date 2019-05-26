@@ -2,16 +2,16 @@
 :source:
   :path: test
   :file: test_ssd1351.c
-:successes: []
-:failures:
+:successes:
 - :test: test_write_pixel_SSD1351
-  :line: 40
-  :message: Expected 0 Was 65450
+  :line: 39
+  :message: ''
+:failures: []
 :ignores: []
 :counts:
   :total: 1
-  :passed: 0
-  :failed: 1
+  :passed: 1
+  :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.0024272709999877407
+:time: 0.0024153470003511757
