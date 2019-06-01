@@ -1,6 +1,14 @@
 #include "ssd1351.h"
 
-STATIC uint16_t displayRAM[RAM_SIZE];
+/* Buffer to hold the Display RAM Data */
+STATIC union DisplayRAM{
+  uint8_t byte[DRAM_SIZE_8];
+  uint16_t halfw[DRAM_SIZE_16];
+} displayRAM;
+
+#define DRAM_16 displayRAM.halfw
+#define DRAM_8 displayRAM.byte
+
 
 /**
   * @brief  Writes data to the SSD1351 OLED Display
@@ -26,7 +34,11 @@ void write_SSD1351Data(uint8_t data){
 void write_SSD1351DataBuffer(uint8_t *data, uint32_t len){
   HAL_GPIO_WritePin(DC_PORT, DC_PIN, GPIO_PIN_SET);
   HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_RESET);
-  HAL_SPI_Transmit(HSSD, data, len, SPI_TIMEOUT);
+  //HAL_SPI_Transmit(HSSD, data, len, SPI_TIMEOUT);
+  for (int i = 0; i < len; i++){
+    hspi2.Instance->DR = DRAM_8[i];
+    while((hspi2.Instance->SR & SPI_FLAG_TXE) == RESET);
+  }
   HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_SET);
 }
 
@@ -55,10 +67,14 @@ void init_SSD1351(void){
 
   write_SSD1351Command(SSD1351_CMD_SETREMAP);
   write_SSD1351Data(0x20);
-  //write_SSD1351Data(0x7F);
+
+  write_SSD1351Command(SSD1351_CMD_SETCOLUMN);
+  write_SSD1351Data(0x00);
+  write_SSD1351Data(0x7F);
+
   write_SSD1351Command(SSD1351_CMD_SETROW);
   write_SSD1351Data(0x00);
-  //write_SSD1351Data(0x7F);
+  write_SSD1351Data(0x7F);
 
   write_SSD1351Command(SSD1351_CMD_STARTLINE);
   write_SSD1351Data(0x00);
@@ -114,8 +130,8 @@ void stop_SSD1351(void){
   */
 void fill_SSD1351(uint16_t color){
   write_SSD1351Command(SSD1351_CMD_WRITERAM);
-  for (int i = 0; i < RAM_SIZE; i++){
-    displayRAM[i] = color;
+  for (int i = 0; i < DRAM_SIZE_16; i++){
+    DRAM_16[i] = color;
   }
   //write_SSD1351Command(SSD1351_CMD_STOPSCROLL);
 }
@@ -126,10 +142,39 @@ void fill_SSD1351(uint16_t color){
   */
 void update_SSD1351(void){
   write_SSD1351Command(SSD1351_CMD_WRITERAM);
-  for(int i = 0; i < RAM_SIZE; i++){
-    write_SSD1351Data((uint8_t)(displayRAM[i] >> 8));
-    write_SSD1351Data((uint8_t)displayRAM[i]);
+  write_SSD1351DataBuffer(DRAM_8, DRAM_SIZE_8);
+}
+
+/**
+  * @brief  Updates a specific area within the display
+  * @retval None
+  */
+void update_area_SSD1351(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1){
+  write_SSD1351Command(SSD1351_CMD_SETCOLUMN);
+  write_SSD1351Data(x0);
+  write_SSD1351Data(y0);
+
+  write_SSD1351Command(SSD1351_CMD_SETROW);
+  write_SSD1351Data(x1);
+  write_SSD1351Data(x0);
+
+  int a0 = x0 + (y0 * 128);
+  int a1 = x1 + (y1 * 128);
+
+  write_SSD1351Command(SSD1351_CMD_WRITERAM);
+  for (int i = a0; i < a1 * 2; i++){
+    write_SSD1351Data(DRAM_8[i]);
   }
+
+  /* Back to default settings */
+
+  write_SSD1351Command(SSD1351_CMD_SETCOLUMN);
+  write_SSD1351Data(x0);
+  write_SSD1351Data(y0);
+
+  write_SSD1351Command(SSD1351_CMD_SETROW);
+  write_SSD1351Data(x1);
+  write_SSD1351Data(x0);
 }
 
 /**
@@ -144,7 +189,7 @@ void write_pixel_SSD1351(int16_t x, int16_t y, uint16_t color){
     return;
   }
   int a = x + (y * 128);
-  displayRAM[a] = color;
+  DRAM_16[a] = color;
 }
 
 
@@ -268,7 +313,7 @@ void draw_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t colo
  * @para y0: starting y coordinate
  * @param w: width of the rectangle
  * @oaram h: height of the rectangle
- * @color: color for the border
+ * @oaram color: color for the border
  * @reval None
  */
 void draw_filled_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color){
@@ -277,4 +322,20 @@ void draw_filled_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16
       write_pixel_SSD1351(i, j, color);
     }
   }
+}
+
+/*
+ * @brief Converts from rgb to a single 16bit value
+ * @param r: starting x coordinate
+ * @para g: starting y coordinate
+ * @param b: width of the rectangle
+ * @reval 16bit value with the rgb color for display
+ */
+uint16_t get_rgb(uint8_t r, uint8_t g, uint8_t b){
+  uint16_t rgb_color = 0;
+  rgb_color |= ((r/8) << 8);
+  rgb_color |= ((g/4) >> 3);
+  rgb_color |= (((g/4) % 0x07) << 13);
+  rgb_color |= ((b/8) << 3);
+  return rgb_color;
 }

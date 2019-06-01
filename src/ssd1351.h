@@ -30,7 +30,8 @@ extern SPI_HandleTypeDef hspi2;
 /*--------------------------------------------------*/
 
 #ifdef OLED_128x128
-#define RAM_SIZE 16384
+#define DRAM_SIZE_8 32768
+#define DRAM_SIZE_16 16384
 #define COLUMNS 128
 #define ROWS 128
 #endif // OLED_128x128
@@ -69,9 +70,9 @@ extern SPI_HandleTypeDef hspi2;
 #define SSD1351_CMD_STARTSCROLL     0x9F
 
 //           Colors
-#define COLOR_RED 0x001F
-#define COLOR_BLUE 0xF800
-#define COLOR_GREEN 0x07E0
+#define COLOR_BLUE 0x00F8
+#define COLOR_RED 0x1F00
+#define COLOR_GREEN 0xE007
 #define COLOR_BLACK 0x0000
 #define COLOR_WHITE 0xFFFF
 
@@ -87,10 +88,14 @@ void write_pixel_SSD1351(int16_t x, int16_t y, uint16_t color);
 
 void update_SSD1351(void);
 
+void update_area_SSD1351(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1);
+
 void draw_line_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
 
 void draw_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
 
 void draw_filled_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+
+uint16_t get_rgb(uint8_t r, uint8_t g, uint8_t b);
 
 #endif //SSD1351_H
