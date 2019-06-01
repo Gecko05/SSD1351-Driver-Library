@@ -1,10 +1,7 @@
 #include "ssd1351.h"
 
 /* Buffer to hold the Display RAM Data */
-STATIC union DisplayRAM{
-  uint8_t byte[DRAM_SIZE_8];
-  uint16_t halfw[DRAM_SIZE_16];
-} displayRAM;
+STATIC DRAM displayRAM;
 
 #define DRAM_16 displayRAM.halfw
 #define DRAM_8 displayRAM.byte
@@ -17,110 +14,107 @@ STATIC union DisplayRAM{
   * @param  len: integer to specify data length
   * @retval None
   */
-void write_SSD1351Command(uint8_t cmd){
-  HAL_GPIO_WritePin(DC_PORT, DC_PIN, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_RESET);
-  HAL_SPI_Transmit(HSSD, &(uint8_t){cmd}, 1, SPI_TIMEOUT);
-  HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_SET);
+void SSD1351_write_command(uint8_t cmd){
+  SSD1351_ClearPin(DC_PORT, DC_PIN);
+  SSD1351_ClearPin(CS_PORT, CS_PIN);
+  SSD1351_SendByte(cmd);
+  SSD1351_SetPin(CS_PORT, CS_PIN);
 }
 
-void write_SSD1351Data(uint8_t data){
-  HAL_GPIO_WritePin(DC_PORT, DC_PIN, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_RESET);
-  HAL_SPI_Transmit(HSSD, &(uint8_t){data}, 1, SPI_TIMEOUT);
-  HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_SET);
+void SSD1351_write_data(uint8_t data){
+  SSD1351_SetPin(DC_PORT, DC_PIN);
+  SSD1351_ClearPin(CS_PORT, CS_PIN);
+  SSD1351_SendByte(data);
+  SSD1351_SetPin(CS_PORT, CS_PIN);
 }
 
-void write_SSD1351DataBuffer(uint8_t *data, uint32_t len){
-  HAL_GPIO_WritePin(DC_PORT, DC_PIN, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_RESET);
+void SSD1351_write_data_buffer(uint8_t *data, uint32_t len){
+  SSD1351_SetPin(DC_PORT, DC_PIN);
+  SSD1351_ClearPin(CS_PORT, CS_PIN);
   //HAL_SPI_Transmit(HSSD, data, len, SPI_TIMEOUT);
-  for (int i = 0; i < len; i++){
-    hspi2.Instance->DR = DRAM_8[i];
-    while((hspi2.Instance->SR & SPI_FLAG_TXE) == RESET);
-  }
-  HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_SET);
+  SSD1351_SendBuffer(DRAM_8, DRAM_SIZE_8);
+  SSD1351_SetPin(CS_PORT, CS_PIN);
 }
 
 /**
   * @brief  Initializes the SSD1351 OLED Display
   * @retval None
   */
-void init_SSD1351(void){
-  HAL_GPIO_WritePin(RESET_PORT, RESET_PIN, GPIO_PIN_SET);
-  HAL_Delay(500);
-  HAL_GPIO_WritePin(RESET_PORT, RESET_PIN, GPIO_PIN_RESET);
-  HAL_Delay(500);
-  HAL_GPIO_WritePin(RESET_PORT, RESET_PIN, GPIO_PIN_SET);
-  HAL_Delay(500);
-  write_SSD1351Command(SSD1351_CMD_COMMANDLOCK);
-  write_SSD1351Data(0x12);
-  write_SSD1351Command(SSD1351_CMD_COMMANDLOCK);
-  write_SSD1351Data(0xB1);
+void SSD1351_init(void){
+  SSD1351_SetPin(RESET_PORT, RESET_PIN);
+  SSD1351_DelayMs(500);
+  SSD1351_ClearPin(RESET_PORT, RESET_PIN);
+  SSD1351_DelayMs(500);
+  SSD1351_SetPin(RESET_PORT, RESET_PIN);
+  SSD1351_DelayMs(500);
+  SSD1351_write_command(SSD1351_CMD_COMMANDLOCK);
+  SSD1351_write_data(0x12);
+  SSD1351_write_command(SSD1351_CMD_COMMANDLOCK);
+  SSD1351_write_data(0xB1);
 
-  write_SSD1351Command(SSD1351_CMD_DISPLAYOFF);
-  write_SSD1351Command(SSD1351_CMD_CLOCKDIV);
-  write_SSD1351Data(0xF1);
-  write_SSD1351Command(SSD1351_CMD_MUXRATIO);
-  write_SSD1351Data(127);
-  HAL_Delay(600);
+  SSD1351_write_command(SSD1351_CMD_DISPLAYOFF);
+  SSD1351_write_command(SSD1351_CMD_CLOCKDIV);
+  SSD1351_write_data(0xF1);
+  SSD1351_write_command(SSD1351_CMD_MUXRATIO);
+  SSD1351_write_data(127);
+  SSD1351_DelayMs(600);
 
-  write_SSD1351Command(SSD1351_CMD_SETREMAP);
-  write_SSD1351Data(0x20);
+  SSD1351_write_command(SSD1351_CMD_SETREMAP);
+  SSD1351_write_data(0x20);
 
-  write_SSD1351Command(SSD1351_CMD_SETCOLUMN);
-  write_SSD1351Data(0x00);
-  write_SSD1351Data(0x7F);
+  SSD1351_write_command(SSD1351_CMD_SETCOLUMN);
+  SSD1351_write_data(0x00);
+  SSD1351_write_data(0x7F);
 
-  write_SSD1351Command(SSD1351_CMD_SETROW);
-  write_SSD1351Data(0x00);
-  write_SSD1351Data(0x7F);
+  SSD1351_write_command(SSD1351_CMD_SETROW);
+  SSD1351_write_data(0x00);
+  SSD1351_write_data(0x7F);
 
-  write_SSD1351Command(SSD1351_CMD_STARTLINE);
-  write_SSD1351Data(0x00);
+  SSD1351_write_command(SSD1351_CMD_STARTLINE);
+  SSD1351_write_data(0x00);
 
-  write_SSD1351Command(SSD1351_CMD_DISPLAYOFFSET);
-  write_SSD1351Data(0x00);
+  SSD1351_write_command(SSD1351_CMD_DISPLAYOFFSET);
+  SSD1351_write_data(0x00);
 
-  write_SSD1351Command(SSD1351_CMD_SETGPIO);
-  write_SSD1351Data(0x00);
+  SSD1351_write_command(SSD1351_CMD_SETGPIO);
+  SSD1351_write_data(0x00);
 
-  write_SSD1351Command(SSD1351_CMD_FUNCTIONSELECT);
-  write_SSD1351Data(0x01);
+  SSD1351_write_command(SSD1351_CMD_FUNCTIONSELECT);
+  SSD1351_write_data(0x01);
 
-  write_SSD1351Command(SSD1351_CMD_PRECHARGE);
-  write_SSD1351Data(0x32);
+  SSD1351_write_command(SSD1351_CMD_PRECHARGE);
+  SSD1351_write_data(0x32);
 
-  write_SSD1351Command(SSD1351_CMD_VCOMH);
-  write_SSD1351Data(0x05);
+  SSD1351_write_command(SSD1351_CMD_VCOMH);
+  SSD1351_write_data(0x05);
 
-  write_SSD1351Command(SSD1351_CMD_NORMALDISPLAY);
+  SSD1351_write_command(SSD1351_CMD_NORMALDISPLAY);
 
-  write_SSD1351Command(SSD1351_CMD_CONTRASTABC);
-  write_SSD1351Data(0x8A);                          // Color A: Blue
-  write_SSD1351Data(0x51);                          // Color B: Green
-  write_SSD1351Data(0x8A);                          // Color C: Red
+  SSD1351_write_command(SSD1351_CMD_CONTRASTABC);
+  SSD1351_write_data(0x8A);                          // Color A: Blue
+  SSD1351_write_data(0x51);                          // Color B: Green
+  SSD1351_write_data(0x8A);                          // Color C: Red
 
-  write_SSD1351Command(SSD1351_CMD_CONTRASTMASTER);
-  write_SSD1351Data(0x0F);
+  SSD1351_write_command(SSD1351_CMD_CONTRASTMASTER);
+  SSD1351_write_data(0x0F);
 
-  write_SSD1351Command(SSD1351_CMD_SETVSL);
-  write_SSD1351Data(0xA0);
-  write_SSD1351Data(0xB5);
-  write_SSD1351Data(0x55);
+  SSD1351_write_command(SSD1351_CMD_SETVSL);
+  SSD1351_write_data(0xA0);
+  SSD1351_write_data(0xB5);
+  SSD1351_write_data(0x55);
 
-  write_SSD1351Command(SSD1351_CMD_PRECHARGE2);
-  write_SSD1351Data(0x01);
+  SSD1351_write_command(SSD1351_CMD_PRECHARGE2);
+  SSD1351_write_data(0x01);
 
-  write_SSD1351Command(SSD1351_CMD_DISPLAYON);
+  SSD1351_write_command(SSD1351_CMD_DISPLAYON);
 }
 
 /**
   * @brief  Turns off the SSD1351 OLED Display
   * @retval None
   */
-void stop_SSD1351(void){
-  write_SSD1351Command(SSD1351_CMD_DISPLAYOFF);
+void SSD1351_stop(void){
+  SSD1351_write_command(SSD1351_CMD_DISPLAYOFF);
 }
 
 /**
@@ -128,53 +122,53 @@ void stop_SSD1351(void){
   * @param  color: Unsigned int16 containing color code
   * @retval None
   */
-void fill_SSD1351(uint16_t color){
-  write_SSD1351Command(SSD1351_CMD_WRITERAM);
+void SSD1351_fill(uint16_t color){
+  SSD1351_write_command(SSD1351_CMD_WRITERAM);
   for (int i = 0; i < DRAM_SIZE_16; i++){
     DRAM_16[i] = color;
   }
-  //write_SSD1351Command(SSD1351_CMD_STOPSCROLL);
+  //SSD1351_write_command(SSD1351_CMD_STOPSCROLL);
 }
 
 /**
   * @brief  Updates the screen RAM
   * @retval None
   */
-void update_SSD1351(void){
-  write_SSD1351Command(SSD1351_CMD_WRITERAM);
-  write_SSD1351DataBuffer(DRAM_8, DRAM_SIZE_8);
+void SSD1351_update(void){
+  SSD1351_write_command(SSD1351_CMD_WRITERAM);
+  SSD1351_write_data_buffer(DRAM_8, DRAM_SIZE_8);
 }
 
 /**
   * @brief  Updates a specific area within the display
   * @retval None
   */
-void update_area_SSD1351(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1){
-  write_SSD1351Command(SSD1351_CMD_SETCOLUMN);
-  write_SSD1351Data(x0);
-  write_SSD1351Data(y0);
+void SSD1351_update_area(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1){
+  SSD1351_write_command(SSD1351_CMD_SETCOLUMN);
+  SSD1351_write_data(x0);
+  SSD1351_write_data(y0);
 
-  write_SSD1351Command(SSD1351_CMD_SETROW);
-  write_SSD1351Data(x1);
-  write_SSD1351Data(x0);
+  SSD1351_write_command(SSD1351_CMD_SETROW);
+  SSD1351_write_data(x1);
+  SSD1351_write_data(x0);
 
   int a0 = x0 + (y0 * 128);
   int a1 = x1 + (y1 * 128);
 
-  write_SSD1351Command(SSD1351_CMD_WRITERAM);
+  SSD1351_write_command(SSD1351_CMD_WRITERAM);
   for (int i = a0; i < a1 * 2; i++){
-    write_SSD1351Data(DRAM_8[i]);
+    SSD1351_write_data(DRAM_8[i]);
   }
 
   /* Back to default settings */
 
-  write_SSD1351Command(SSD1351_CMD_SETCOLUMN);
-  write_SSD1351Data(x0);
-  write_SSD1351Data(y0);
+  SSD1351_write_command(SSD1351_CMD_SETCOLUMN);
+  SSD1351_write_data(x0);
+  SSD1351_write_data(y0);
 
-  write_SSD1351Command(SSD1351_CMD_SETROW);
-  write_SSD1351Data(x1);
-  write_SSD1351Data(x0);
+  SSD1351_write_command(SSD1351_CMD_SETROW);
+  SSD1351_write_data(x1);
+  SSD1351_write_data(x0);
 }
 
 /**
@@ -184,7 +178,7 @@ void update_area_SSD1351(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1){
  * @param y: Pixel's vertical position
  * @retval None
  */
-void write_pixel_SSD1351(int16_t x, int16_t y, uint16_t color){
+void SSD1351_write_pixel(int16_t x, int16_t y, uint16_t color){
   if ( x > 127 || y > 127 || x < 0 || y < 0){
     return;
   }
@@ -195,7 +189,7 @@ void write_pixel_SSD1351(int16_t x, int16_t y, uint16_t color){
 
 /*  LINE DRAWING FUNCTIONS */
 
-static void draw_line_low_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
+static void SSD1351_draw_line_low(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
   int16_t dx = x1 - x0;
   int16_t dy = y1 - y0;
   int16_t yi = 1;
@@ -208,7 +202,7 @@ static void draw_line_low_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1
 
   if (x0 < x1){
     for (int16_t x = x0; x <= x1; x++){
-      write_pixel_SSD1351(x, y, color);
+      SSD1351_write_pixel(x, y, color);
       if (D > 0){
         y = y + yi;
         D = D - 2*dx;
@@ -218,7 +212,7 @@ static void draw_line_low_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1
   }
   else{
     for (int16_t x = x0; x >= x1; x--){
-      write_pixel_SSD1351(x, y, color);
+      SSD1351_write_pixel(x, y, color);
       if (D > 0){
         y = y + yi;
         D = D - 2*dx;
@@ -229,7 +223,7 @@ static void draw_line_low_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1
 
 }
 
-static void draw_line_high_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
+static void SSD1351_draw_line_high(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
   int16_t dx = x1 - x0;
   int16_t dy = y1 - y0;
   int16_t xi = 1;
@@ -242,7 +236,7 @@ static void draw_line_high_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y
 
   if ( y0 < y1){
     for (int16_t y = y0; y <= y1; y++){
-      write_pixel_SSD1351(x, y, color);
+      SSD1351_write_pixel(x, y, color);
       if (D > 0){
         x = x + xi;
         D = D - 2*dy;
@@ -252,7 +246,7 @@ static void draw_line_high_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y
   }
   else{
     for (int16_t y = y0; y >= y1; y--){
-      write_pixel_SSD1351(x, y, color);
+      SSD1351_write_pixel(x, y, color);
       if (D > 0){
         x = x + xi;
         D = D - 2*dy;
@@ -271,21 +265,21 @@ static void draw_line_high_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y
  * @color: color to use to draw the line
  * @reval None
  */
-void draw_line_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
+void SSD1351_draw_line(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
   if (abs(y1 - y0) < abs(x1 - x0)){
     if (x0 > x1){
-      draw_line_low_SSD1351(x1, y1, x0, y0, color);
+      SSD1351_draw_line_low(x1, y1, x0, y0, color);
     }
     else{
-      draw_line_low_SSD1351(x0, y0, x1, y1, color);
+      SSD1351_draw_line_low(x0, y0, x1, y1, color);
     }
   }
   else{
     if (y0 > y1){
-      draw_line_high_SSD1351(x1, y1, x0, y0, color);
+      SSD1351_draw_line_high(x1, y1, x0, y0, color);
     }
     else{
-      draw_line_high_SSD1351(x0, y0, x1, y1, color);
+      SSD1351_draw_line_high(x0, y0, x1, y1, color);
     }
   }
   return;
@@ -300,11 +294,11 @@ void draw_line_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t 
  * @color: color for the border
  * @reval None
  */
-void draw_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color){
-  draw_line_SSD1351(x, y, x + w, y, color);
-  draw_line_SSD1351(x + w, y, x + w, y + h, color);
-  draw_line_SSD1351(x + w, y + h, x, y + h, color);
-  draw_line_SSD1351(x, y + h, x, y, color);
+void SSD1351_draw_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color){
+  SSD1351_draw_line(x, y, x + w, y, color);
+  SSD1351_draw_line(x + w, y, x + w, y + h, color);
+  SSD1351_draw_line(x + w, y + h, x, y + h, color);
+  SSD1351_draw_line(x, y + h, x, y, color);
 }
 
 /*
@@ -316,10 +310,10 @@ void draw_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t colo
  * @oaram color: color for the border
  * @reval None
  */
-void draw_filled_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color){
+void SSD1351_draw_filled_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color){
   for (int i = x; i < x + w; i++){
     for (int j = y; j < y + h; j++){
-      write_pixel_SSD1351(i, j, color);
+      SSD1351_write_pixel(i, j, color);
     }
   }
 }
@@ -331,7 +325,7 @@ void draw_filled_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16
  * @param b: width of the rectangle
  * @reval 16bit value with the rgb color for display
  */
-uint16_t get_rgb(uint8_t r, uint8_t g, uint8_t b){
+uint16_t SSD1351_get_rgb(uint8_t r, uint8_t g, uint8_t b){
   uint16_t rgb_color = 0;
   rgb_color |= ((r/8) << 8);
   rgb_color |= ((g/4) >> 3);

@@ -1,10 +1,11 @@
 #ifndef SSD1351_H
 #define SSD1351_H
 
-#include "stm32l1xx_hal.h"
+#include <myHAL.h> // Library for my SPI
 #include "stdbool.h"
 #include "stdlib.h"
 #include "stdio.h"
+
 
 #ifdef TEST
     #define STATIC
@@ -12,7 +13,7 @@
     #define STATIC  static
 #endif /* ifdef TEST */
 
-/*------- CONFIGURE THIS TO YOUR OWN HARDWARE -------*/
+/*------- CONFIGURE THIS TO YOUR OWN HARDWARE AND HAL -------*/
 // PC0 = RESET      PC1 = D/C#      PB0 = CS
 
 #define RESET_PORT GPIOC
@@ -22,11 +23,16 @@
 #define CS_PORT GPIOB
 #define CS_PIN GPIO_PIN_0
 #define SPI_TIMEOUT 1
-
 #define OLED_128x128
 
-extern SPI_HandleTypeDef hspi2;
-#define HSSD &hspi2
+/* Definitions for SPI functions */
+#define SSD1351_SendBuffer(buffer, len) SPI_TXBuffer(buffer, len)
+#define SSD1351_SendByte(data) SPI_TXByte(data)
+/* Definitions for GPIO pin functions */
+#define SSD1351_SetPin(PORT, PIN) GPIO_SetPin(PORT, PIN)
+#define SSD1351_ClearPin(PORT, PIN) GPIO_ResetPin(PORT, PIN)
+/* Definition for delay function */
+#define SSD1351_DelayMs(x) HAL_Delay(x)
 /*--------------------------------------------------*/
 
 #ifdef OLED_128x128
@@ -35,6 +41,11 @@ extern SPI_HandleTypeDef hspi2;
 #define COLUMNS 128
 #define ROWS 128
 #endif // OLED_128x128
+
+typedef union DisplayRAM{
+  uint8_t byte[DRAM_SIZE_8];
+  uint16_t halfw[DRAM_SIZE_16];
+} DRAM;
 
 //          SSD1351 Commands
 #define SSD1351_CMD_SETCOLUMN       0x15
@@ -76,26 +87,26 @@ extern SPI_HandleTypeDef hspi2;
 #define COLOR_BLACK 0x0000
 #define COLOR_WHITE 0xFFFF
 
-void init_SSD1351(void);
+void SSD1351_init(void);
 
-void stop_SSD1351(void);
+void SSD1351_stop(void);
 
-void turn_off_SSD1351(void);
+void SSD1351_turn_off(void);
 
-void fill_SSD1351(uint16_t color);
+void SSD1351_fill(uint16_t color);
 
-void write_pixel_SSD1351(int16_t x, int16_t y, uint16_t color);
+void SSD1351_write_pixel(int16_t x, int16_t y, uint16_t color);
 
-void update_SSD1351(void);
+void SSD1351_update(void);
 
-void update_area_SSD1351(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1);
+void SSD1351_update_area(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1);
 
-void draw_line_SSD1351(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
+void SSD1351_draw_line(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
 
-void draw_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+void SSD1351_draw_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
 
-void draw_filled_rect_SSD1351(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+void SSD1351_draw_filled_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
 
-uint16_t get_rgb(uint8_t r, uint8_t g, uint8_t b);
+uint16_t SSD1351_get_rgb(uint8_t r, uint8_t g, uint8_t b);
 
 #endif //SSD1351_H

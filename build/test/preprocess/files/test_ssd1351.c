@@ -2,11 +2,19 @@
 #include "ssd1351.h"
 #include "mock_stm32l1xx_hal.h"
 #include "unity.h"
+uint16_t x;
 
 
 
 
-extern uint16_t displayRAM[];
+
+
+
+
+
+
+
+extern DRAM displayRAM;
 
 uint16_t compRAM[16384];
 
@@ -22,9 +30,9 @@ uint16_t a_pos;
 
 void printDRAM(void){
 
- for (int i = 0; i < 128*128; i++){
+ for (int i = 0; i < 16384; i++){
 
-  printf("%i", displayRAM[i]);
+  printf("%i", displayRAM.halfw[i]);
 
  }
 
@@ -54,7 +62,7 @@ void setUp(void){
 
  HAL_Delay_CMockIgnore();
 
- memset(displayRAM, 0, 16384);
+ memset(displayRAM.halfw, 0, 16384);
 
 }
 
@@ -68,10 +76,6 @@ void tearDown(void){
 
 
 
-
-
-
-
 void test_write_pixel_SSD1351(void){
 
 
@@ -80,11 +84,11 @@ void test_write_pixel_SSD1351(void){
 
  write_pixel_SSD1351(x_pos, y_pos, color);
 
- UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((displayRAM[a_pos])), (UNITY_INT)(UNITY_UINT16)((color)), (
+ UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((displayRAM.halfw[a_pos])), (UNITY_INT)(UNITY_UINT16)((color)), (
 
 ((void *)0)
 
-), (UNITY_UINT)(43), UNITY_DISPLAY_STYLE_UINT16);
+), (UNITY_UINT)(45), UNITY_DISPLAY_STYLE_UINT16);
 
 
 
@@ -92,11 +96,11 @@ void test_write_pixel_SSD1351(void){
 
  write_pixel_SSD1351(x_pos, y_pos, color);
 
- UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((displayRAM[a_pos])), (UNITY_INT)(UNITY_UINT16)((color)), (
+ UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((displayRAM.halfw[a_pos])), (UNITY_INT)(UNITY_UINT16)((color)), (
 
 ((void *)0)
 
-), (UNITY_UINT)(47), UNITY_DISPLAY_STYLE_UINT16);
+), (UNITY_UINT)(49), UNITY_DISPLAY_STYLE_UINT16);
 
 
 
@@ -104,11 +108,11 @@ void test_write_pixel_SSD1351(void){
 
  write_pixel_SSD1351(x_pos, y_pos, color);
 
- UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((displayRAM[a_pos])), (UNITY_INT)(UNITY_UINT16)((color)), (
+ UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((displayRAM.halfw[a_pos])), (UNITY_INT)(UNITY_UINT16)((color)), (
 
 ((void *)0)
 
-), (UNITY_UINT)(51), UNITY_DISPLAY_STYLE_UINT16);
+), (UNITY_UINT)(53), UNITY_DISPLAY_STYLE_UINT16);
 
 
 
@@ -116,17 +120,19 @@ void test_write_pixel_SSD1351(void){
 
  write_pixel_SSD1351(x_pos, y_pos, color);
 
- UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((displayRAM[a_pos])), (UNITY_INT)(UNITY_UINT16)((color)), (
+ UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((displayRAM.halfw[a_pos])), (UNITY_INT)(UNITY_UINT16)((color)), (
 
 ((void *)0)
 
-), (UNITY_UINT)(55), UNITY_DISPLAY_STYLE_UINT16);
+), (UNITY_UINT)(57), UNITY_DISPLAY_STYLE_UINT16);
 
 
 
 
 
- memcpy(compRAM, displayRAM, 16384 * 2);
+
+
+ memcpy(compRAM, displayRAM.halfw, 16384);
 
 
 
@@ -134,11 +140,11 @@ void test_write_pixel_SSD1351(void){
 
  write_pixel_SSD1351(x_pos, y_pos, color);
 
- UnityAssertEqualIntArray(( const void*)((compRAM)), ( const void*)((displayRAM)), (UNITY_UINT32)((16384)), (
+ UnityAssertEqualIntArray(( const void*)((compRAM)), ( const void*)((displayRAM.halfw)), (UNITY_UINT32)((16384)), (
 
 ((void *)0)
 
-), (UNITY_UINT)(62), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(65), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -146,11 +152,11 @@ void test_write_pixel_SSD1351(void){
 
  write_pixel_SSD1351(x_pos, y_pos, color);
 
- UnityAssertEqualIntArray(( const void*)((compRAM)), ( const void*)((displayRAM)), (UNITY_UINT32)((16384)), (
+ UnityAssertEqualIntArray(( const void*)((compRAM)), ( const void*)((displayRAM.halfw)), (UNITY_UINT32)((16384)), (
 
 ((void *)0)
 
-), (UNITY_UINT)(66), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(69), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -158,11 +164,11 @@ void test_write_pixel_SSD1351(void){
 
  write_pixel_SSD1351(x_pos, y_pos, color);
 
- UnityAssertEqualIntArray(( const void*)((compRAM)), ( const void*)((displayRAM)), (UNITY_UINT32)((16384)), (
+ UnityAssertEqualIntArray(( const void*)((compRAM)), ( const void*)((displayRAM.halfw)), (UNITY_UINT32)((16384)), (
 
 ((void *)0)
 
-), (UNITY_UINT)(70), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(73), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -170,11 +176,11 @@ void test_write_pixel_SSD1351(void){
 
  write_pixel_SSD1351(x_pos, y_pos, color);
 
- UnityAssertEqualIntArray(( const void*)((compRAM)), ( const void*)((displayRAM)), (UNITY_UINT32)((16384)), (
+ UnityAssertEqualIntArray(( const void*)((compRAM)), ( const void*)((displayRAM.halfw)), (UNITY_UINT32)((16384)), (
 
 ((void *)0)
 
-), (UNITY_UINT)(74), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(77), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -182,10 +188,10 @@ void test_write_pixel_SSD1351(void){
 
  write_pixel_SSD1351(x_pos, y_pos, color);
 
- UnityAssertEqualIntArray(( const void*)((compRAM)), ( const void*)((displayRAM)), (UNITY_UINT32)((16384)), (
+ UnityAssertEqualIntArray(( const void*)((compRAM)), ( const void*)((displayRAM.halfw)), (UNITY_UINT32)((16384)), (
 
 ((void *)0)
 
-), (UNITY_UINT)(78), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(81), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 }
