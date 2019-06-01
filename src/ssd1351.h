@@ -5,7 +5,7 @@
 #include "stdbool.h"
 #include "stdlib.h"
 #include "stdio.h"
-
+#include "stdint.h"
 
 #ifdef TEST
     #define STATIC

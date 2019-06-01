@@ -1,5 +1,5 @@
 #include "unity.h"
-#include "mock_stm32l1xx_hal.h"
+#include "mock_myHAL.h"
 #include "ssd1351.h"
 #include "string.h"
 
@@ -24,9 +24,10 @@ void update_pixel_params(int16_t x, int16_t y, uint16_t col){
 }
 
 void setUp(void){
-	HAL_SPI_Transmit_Ignore();
-	HAL_GPIO_WritePin_Ignore();
-	HAL_Delay_Ignore();
+	SPI_TXBuffer_Ignore();
+	SPI_TXByte_Ignore();
+	GPIO_SetPin_Ignore();
+	//HAL_Delay_Ignore();
 	memset(displayRAM.halfw, 0, 16384);
 }
 
@@ -34,22 +35,22 @@ void tearDown(void){
 
 }
 
-void test_write_pixel_SSD1351(void){
+void test_SSD1351_write_pixel(void){
 /* Test with various positions */
 	update_pixel_params(120, 0, 0xFFAA);
-	write_pixel_SSD1351(x_pos, y_pos, color);
+	SSD1351_write_pixel(x_pos, y_pos, color);
 	TEST_ASSERT_EQUAL_UINT16(displayRAM.halfw[a_pos], color);
 
 	update_pixel_params(0, 0, 0xC0AB);
-	write_pixel_SSD1351(x_pos, y_pos, color);
+	SSD1351_write_pixel(x_pos, y_pos, color);
 	TEST_ASSERT_EQUAL_UINT16(displayRAM.halfw[a_pos], color);
 
 	update_pixel_params(127, 127, 0x185A);
-	write_pixel_SSD1351(x_pos, y_pos, color);
+	SSD1351_write_pixel(x_pos, y_pos, color);
 	TEST_ASSERT_EQUAL_UINT16(displayRAM.halfw[a_pos], color);
 
 	update_pixel_params(0, 99, 0xAFE1);
-	write_pixel_SSD1351(x_pos, y_pos, color);
+	SSD1351_write_pixel(x_pos, y_pos, color);
 	TEST_ASSERT_EQUAL_UINT16(displayRAM.halfw[a_pos], color);
 
 /* Test with positions outside of the screen dimensions */
@@ -57,22 +58,22 @@ void test_write_pixel_SSD1351(void){
 	memcpy(compRAM, displayRAM.halfw, DRAM_SIZE_16);
 
 	update_pixel_params(7148, 99, 0xA458);
-	write_pixel_SSD1351(x_pos, y_pos, color);
+	SSD1351_write_pixel(x_pos, y_pos, color);
 	TEST_ASSERT_EQUAL_UINT16_ARRAY(compRAM, displayRAM.halfw, DRAM_SIZE_16);
 
 	update_pixel_params(0, 129, 0xA458);
-	write_pixel_SSD1351(x_pos, y_pos, color);
+	SSD1351_write_pixel(x_pos, y_pos, color);
 	TEST_ASSERT_EQUAL_UINT16_ARRAY(compRAM, displayRAM.halfw, DRAM_SIZE_16);
 
 	update_pixel_params(-16, -1, 0xA458);
-	write_pixel_SSD1351(x_pos, y_pos, color);
+	SSD1351_write_pixel(x_pos, y_pos, color);
 	TEST_ASSERT_EQUAL_UINT16_ARRAY(compRAM, displayRAM.halfw, DRAM_SIZE_16);
 
 	update_pixel_params(-16, 0, 0xA458);
-	write_pixel_SSD1351(x_pos, y_pos, color);
+	SSD1351_write_pixel(x_pos, y_pos, color);
 	TEST_ASSERT_EQUAL_UINT16_ARRAY(compRAM, displayRAM.halfw, DRAM_SIZE_16);
 
 	update_pixel_params(0, -11512, 0xA458);
-	write_pixel_SSD1351(x_pos, y_pos, color);
+	SSD1351_write_pixel(x_pos, y_pos, color);
 	TEST_ASSERT_EQUAL_UINT16_ARRAY(compRAM, displayRAM.halfw, DRAM_SIZE_16);
 }

@@ -1,5 +1,4 @@
-build/test/out/c/test_ssd1351_runner.o: \
- build/test/runners/test_ssd1351_runner.c \
+build/test/out/c/mock_myHAL.o: build/test/mocks/mock_myHAL.c \
  /home/gecko/Embedded/STM/Projects/SSD1351/vendor/ceedling/vendor/unity/src/unity.h \
  /home/gecko/Embedded/STM/Projects/SSD1351/vendor/ceedling/vendor/unity/src/unity_internals.h \
  /home/gecko/Embedded/STM/Projects/SSD1351/vendor/ceedling/vendor/cmock/src/cmock.h \
