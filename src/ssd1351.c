@@ -8,10 +8,8 @@ STATIC DRAM displayRAM;
 
 
 /**
-  * @brief  Writes data to the SSD1351 OLED Display
-  * @param  cmd: can be true to write a command
-  * @param  data: pointer to the data buffer
-  * @param  len: integer to specify data length
+  * @brief  Writes command to the SSD1351 OLED Display
+  * @param  cmd: command to send
   * @retval None
   */
 void SSD1351_write_command(uint8_t cmd){
@@ -21,6 +19,11 @@ void SSD1351_write_command(uint8_t cmd){
   SSD1351_SetPin(CS_PORT, CS_PIN);
 }
 
+/**
+  * @brief  Writes single byte data to the SSD1351 OLED Display
+  * @param  data: data byte to send
+  * @retval None
+  */
 void SSD1351_write_data(uint8_t data){
   SSD1351_SetPin(DC_PORT, DC_PIN);
   SSD1351_ClearPin(CS_PORT, CS_PIN);
@@ -28,12 +31,33 @@ void SSD1351_write_data(uint8_t data){
   SSD1351_SetPin(CS_PORT, CS_PIN);
 }
 
+/**
+  * @brief  Writes a data buffer of bytes to SSD1351 display
+  * @param  data: pointer to data buffer to send
+  * @param  len: integer with length of buffer to send
+  * @retval None
+  */
 void SSD1351_write_data_buffer(uint8_t *data, uint32_t len){
   SSD1351_SetPin(DC_PORT, DC_PIN);
   SSD1351_ClearPin(CS_PORT, CS_PIN);
-  //HAL_SPI_Transmit(HSSD, data, len, SPI_TIMEOUT);
   SSD1351_SendBuffer(DRAM_8, DRAM_SIZE_8);
   SSD1351_SetPin(CS_PORT, CS_PIN);
+}
+
+/*
+ * @brief Converts from RGB to a single 16bit value
+ * @param r: starting x coordinate
+ * @para g: starting y coordinate
+ * @param b: width of the rectangle
+ * @reval 16bit value with the rgb color for display
+ */
+uint16_t SSD1351_get_rgb(uint8_t r, uint8_t g, uint8_t b){
+  uint16_t rgb_color = 0;
+  rgb_color |= ((r/8) << 8);
+  rgb_color |= ((g/4) >> 3);
+  rgb_color |= (((g/4) % 0x07) << 13);
+  rgb_color |= ((b/8) << 3);
+  return rgb_color;
 }
 
 /**
@@ -307,7 +331,7 @@ void SSD1351_draw_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t colo
  * @para y0: starting y coordinate
  * @param w: width of the rectangle
  * @oaram h: height of the rectangle
- * @oaram color: color for the border
+ * @oaram color: color for the rectangle
  * @reval None
  */
 void SSD1351_draw_filled_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color){
@@ -318,18 +342,68 @@ void SSD1351_draw_filled_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16
   }
 }
 
+STATIC void draw_circle(uint16_t xc, uint16_t yc, uint16_t x, uint16_t y, uint16_t color){
+  SSD1351_write_pixel(xc + x, yc + y, color);
+  SSD1351_write_pixel(xc - x, yc + y, color);
+  SSD1351_write_pixel(xc + x, yc - y, color);
+  SSD1351_write_pixel(xc - x, yc - y, color);
+  SSD1351_write_pixel(xc + y, yc + x, color);
+  SSD1351_write_pixel(xc - y, yc + x, color);
+  SSD1351_write_pixel(xc + y, yc - x, color);
+  SSD1351_write_pixel(xc - y, yc - x, color);
+}
+
+STATIC void draw_filled_circle(uint16_t xc, uint16_t yc, uint16_t x, uint16_t y, uint16_t color){
+  SSD1351_draw_line(xc - x, yc + y, xc + x, yc + y, color);
+  SSD1351_draw_line(xc - x, yc - y, xc + x, yc - y, color);
+  SSD1351_draw_line(xc -y, yc + x, xc + y, yc + x, color);
+  SSD1351_draw_line(xc - y, yc - x, xc + y, yc - x, color);
+}
+
 /*
- * @brief Converts from rgb to a single 16bit value
- * @param r: starting x coordinate
- * @para g: starting y coordinate
- * @param b: width of the rectangle
- * @reval 16bit value with the rgb color for display
+ * @brief Draws a cicle with specified origin and radius into display RAM
+ * @param xc: integer for the x origin coordinate
+ * @param yc: integer for the y origin coordinate
+ * @param color: color for the border
+ * @reval None
  */
-uint16_t SSD1351_get_rgb(uint8_t r, uint8_t g, uint8_t b){
-  uint16_t rgb_color = 0;
-  rgb_color |= ((r/8) << 8);
-  rgb_color |= ((g/4) >> 3);
-  rgb_color |= (((g/4) % 0x07) << 13);
-  rgb_color |= ((b/8) << 3);
-  return rgb_color;
+void SSD1351_draw_circle(uint16_t xc, uint16_t yc, uint16_t r, uint16_t color){
+  int x = 0, y = r;
+  int d = 3 - 2 * r;
+  draw_circle(xc, yc, x, y, color);
+  while (y >= x){
+    x++;
+    if (d > 0){
+      y--;
+      d = d + 4 * (x - y) + 10;
+    }
+    else{
+      d = d + 4 * x + 6;
+    }
+    draw_circle(xc, yc, x, y, color);
+  }
+}
+
+/*
+ * @brief Draws a cicle with specified origin and radius into display RAM
+ * @param xc: integer for the x origin coordinate
+ * @param yc: integer for the y origin coordinate
+ * @param color: color for the circle
+ * @reval None
+ */
+void SSD1351_draw_filled_circle(uint16_t xc, uint16_t yc, uint16_t r, uint16_t color){
+  int x = 0, y = r;
+  int d = 3 - 2 * r;
+  draw_filled_circle(xc, yc, x, y, color);
+  while (y >= x){
+    x++;
+    if (d > 0){
+      y--;
+      d = d + 4 * (x - y) + 10;
+    }
+    else{
+      d = d + 4 * x + 6;
+    }
+    draw_filled_circle(xc, yc, x, y, color);
+  }
 }

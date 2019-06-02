@@ -87,6 +87,8 @@ typedef union DisplayRAM{
 #define COLOR_BLACK 0x0000
 #define COLOR_WHITE 0xFFFF
 
+uint16_t SSD1351_get_rgb(uint8_t r, uint8_t g, uint8_t b);
+
 void SSD1351_init(void);
 
 void SSD1351_stop(void);
@@ -107,6 +109,8 @@ void SSD1351_draw_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t colo
 
 void SSD1351_draw_filled_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
 
-uint16_t SSD1351_get_rgb(uint8_t r, uint8_t g, uint8_t b);
+void SSD1351_draw_circle(uint16_t xc, uint16_t yc, uint16_t r, uint16_t color);
+
+void SSD1351_draw_filled_circle(uint16_t xc, uint16_t yc, uint16_t r, uint16_t color);
 
 #endif //SSD1351_H
