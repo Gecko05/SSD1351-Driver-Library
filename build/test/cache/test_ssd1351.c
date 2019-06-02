@@ -14,6 +14,22 @@ int16_t x_pos;
 
 int16_t y_pos;
 
+int16_t x_0;
+
+int16_t y_0;
+
+int16_t x_1;
+
+int16_t y_1;
+
+int16_t w;
+
+int16_t h;
+
+uint16_t a_0;
+
+uint16_t a_1;
+
 uint16_t color;
 
 uint16_t a_pos;
@@ -41,6 +57,34 @@ void update_pixel_params(int16_t x, int16_t y, uint16_t col){
  color = col;
 
  a_pos = x_pos + (128 * y_pos);
+
+}
+
+
+
+void print_compRAM(void){
+
+ for (int i = 0; i < 16384; i++){
+
+  printf("%x ", compRAM[i]);
+
+ }
+
+ printf("\n");
+
+}
+
+
+
+void print_dispRAM(void){
+
+ for (int i = 0; i < 16384; i++){
+
+  printf("%x ", displayRAM.halfw[i]);
+
+ }
+
+ printf("\n");
 
 }
 
@@ -82,7 +126,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(42), UNITY_DISPLAY_STYLE_UINT16);
+), (UNITY_UINT)(64), UNITY_DISPLAY_STYLE_UINT16);
 
 
 
@@ -94,7 +138,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(46), UNITY_DISPLAY_STYLE_UINT16);
+), (UNITY_UINT)(68), UNITY_DISPLAY_STYLE_UINT16);
 
 
 
@@ -106,7 +150,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(50), UNITY_DISPLAY_STYLE_UINT16);
+), (UNITY_UINT)(72), UNITY_DISPLAY_STYLE_UINT16);
 
 
 
@@ -118,7 +162,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(54), UNITY_DISPLAY_STYLE_UINT16);
+), (UNITY_UINT)(76), UNITY_DISPLAY_STYLE_UINT16);
 
 
 
@@ -132,7 +176,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(59), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(81), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -144,7 +188,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(63), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(85), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -156,7 +200,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(67), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(89), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -168,7 +212,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(71), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(93), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -180,7 +224,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(75), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(97), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -192,6 +236,6 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(79), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(101), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 }

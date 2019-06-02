@@ -7,6 +7,14 @@ extern DRAM displayRAM;
 uint16_t compRAM[DRAM_SIZE_16];
 int16_t x_pos;
 int16_t y_pos;
+int16_t x_0;
+int16_t y_0;
+int16_t x_1;
+int16_t y_1;
+int16_t w;
+int16_t h;
+uint16_t a_0;
+uint16_t a_1;
 uint16_t color;
 uint16_t a_pos;
 
@@ -21,6 +29,20 @@ void update_pixel_params(int16_t x, int16_t y, uint16_t col){
 	y_pos = y;
 	color = col;
 	a_pos = x_pos + (128 * y_pos);
+}
+
+void print_compRAM(void){
+	for (int i = 0; i < DRAM_SIZE_16; i++){
+		printf("%x ", compRAM[i]);
+	}
+	printf("\n");
+}
+
+void print_dispRAM(void){
+	for (int i = 0; i < DRAM_SIZE_16; i++){
+		printf("%x ", displayRAM.halfw[i]);
+	}
+	printf("\n");
 }
 
 void setUp(void){

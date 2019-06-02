@@ -4,7 +4,7 @@
   :file: test_ssd1351.c
 :successes:
 - :test: test_SSD1351_write_pixel
-  :line: 38
+  :line: 60
   :message: ''
 :failures: []
 :ignores: []
@@ -14,4 +14,4 @@
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.0014826120004727272
+:time: 0.003133209999759856

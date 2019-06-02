@@ -143,7 +143,7 @@ void SSD1351_update(void){
   * @brief  Updates a specific area within the display
   * @retval None
   */
-void SSD1351_update_area(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1){
+/*void SSD1351_update_area(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1){
   SSD1351_write_command(SSD1351_CMD_SETCOLUMN);
   SSD1351_write_data(x0);
   SSD1351_write_data(y0);
@@ -160,7 +160,7 @@ void SSD1351_update_area(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1){
     SSD1351_write_data(DRAM_8[i]);
   }
 
-  /* Back to default settings */
+  // Back to default settings
 
   SSD1351_write_command(SSD1351_CMD_SETCOLUMN);
   SSD1351_write_data(x0);
@@ -169,10 +169,10 @@ void SSD1351_update_area(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1){
   SSD1351_write_command(SSD1351_CMD_SETROW);
   SSD1351_write_data(x1);
   SSD1351_write_data(x0);
-}
+}*/
 
 /**
- * @brief Writes a pixel data to the screen RAM
+ * @brief Writes a pixel data to the screen RAM buffer
  * @param color: Unsigned int16 containing color code
  * @param x: Pixel's horizontal position
  * @param y: Pixel's vertical position
