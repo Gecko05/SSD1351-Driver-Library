@@ -55,7 +55,8 @@ void test_SSD1351_write_pixel(void){
 
 /* Test with positions outside of the screen dimensions */
 
-	memcpy(compRAM, displayRAM.halfw, DRAM_SIZE_16);
+	memcpy(compRAM, displayRAM.halfw, DRAM_SIZE_8); // copies bytes
+	TEST_ASSERT_EQUAL_UINT16_ARRAY(compRAM, displayRAM.halfw, DRAM_SIZE_16);
 
 	update_pixel_params(7148, 99, 0xA458);
 	SSD1351_write_pixel(x_pos, y_pos, color);

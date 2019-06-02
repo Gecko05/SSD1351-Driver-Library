@@ -126,7 +126,13 @@ void test_SSD1351_write_pixel(void){
 
 
 
- memcpy(compRAM, displayRAM.halfw, 16384);
+ memcpy(compRAM, displayRAM.halfw, 32768);
+
+ UnityAssertEqualIntArray(( const void*)((compRAM)), ( const void*)((displayRAM.halfw)), (UNITY_UINT32)((16384)), (
+
+((void *)0)
+
+), (UNITY_UINT)(59), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -138,7 +144,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(62), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(63), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -150,7 +156,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(66), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(67), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -162,7 +168,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(70), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(71), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -174,7 +180,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(74), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(75), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -186,6 +192,6 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(78), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(79), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 }
