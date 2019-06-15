@@ -342,6 +342,26 @@ void SSD1351_draw_filled_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16
   }
 }
 
+/*
+ * @brief Draws a rotated filled rectangle with specified dimensions into display RAM
+ * @param xc: center x coordinate
+ * @para yc: center y coordinate
+ * @param w: width of the rectangle
+ * @param h: height of the rectangle
+ * @param r: rotation in degrees
+ * @oaram color: color for the rectangle
+ * @reval None
+ */
+/*
+void SSD1351_draw_rotated_rect(int16_t xc, int16_t yc, int16_t w, int16_t h, int16_t r, uint16_t color){
+  r = r % 90;
+  int16_t hyp = sqrt((h * h)/4 + (w * w)/4);
+  float wr = 45  + r;
+  float rad = (wr/360)*M_PI;
+  int16_t x0 = xc - (hyp * sin(rad));
+  int16_t y0 = yc + (hyp * cos(rad));
+}*/
+
 STATIC void draw_circle(uint16_t xc, uint16_t yc, uint16_t x, uint16_t y, uint16_t color){
   SSD1351_write_pixel(xc + x, yc + y, color);
   SSD1351_write_pixel(xc - x, yc + y, color);
