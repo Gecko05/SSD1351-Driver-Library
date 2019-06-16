@@ -7,6 +7,8 @@
 #include "stdio.h"
 #include "stdint.h"
 #include "math.h"
+#include <stdarg.h>
+#include "fonts.h"
 
 #ifdef TEST
     #define STATIC
@@ -88,6 +90,8 @@ typedef union DisplayRAM{
 #define COLOR_BLACK 0x0000
 #define COLOR_WHITE 0xFFFF
 
+extern struct cursor SSD1351_cursor;
+
 uint16_t SSD1351_get_rgb(uint8_t r, uint8_t g, uint8_t b);
 
 void SSD1351_init(void);
@@ -113,5 +117,9 @@ void SSD1351_draw_filled_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16
 void SSD1351_draw_circle(uint16_t xc, uint16_t yc, uint16_t r, uint16_t color);
 
 void SSD1351_draw_filled_circle(uint16_t xc, uint16_t yc, uint16_t r, uint16_t color);
+
+void SSD1351_printf(uint16_t color, font_t font, const char *format, ...);
+
+void SSD1351_set_cursor(uint8_t x, uint8_t y);
 
 #endif //SSD1351_H

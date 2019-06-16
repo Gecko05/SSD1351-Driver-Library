@@ -6,6 +6,10 @@ STATIC DRAM displayRAM;
 #define DRAM_16 displayRAM.halfw
 #define DRAM_8 displayRAM.byte
 
+struct cursor{
+  uint8_t x;
+  uint8_t y;
+}SSD1351_cursor;
 
 /**
   * @brief  Writes command to the SSD1351 OLED Display
@@ -147,7 +151,6 @@ void SSD1351_stop(void){
   * @retval None
   */
 void SSD1351_fill(uint16_t color){
-  SSD1351_write_command(SSD1351_CMD_WRITERAM);
   for (int i = 0; i < DRAM_SIZE_16; i++){
     DRAM_16[i] = color;
   }
@@ -206,7 +209,7 @@ void SSD1351_write_pixel(int16_t x, int16_t y, uint16_t color){
   if ( x > 127 || y > 127 || x < 0 || y < 0){
     return;
   }
-  int a = x + (y * 128);
+  int a = (127 - x) + (y * 128);
   DRAM_16[a] = color;
 }
 
@@ -258,7 +261,7 @@ static void SSD1351_draw_line_high(int16_t x0, int16_t y0, int16_t x1, int16_t y
   int16_t D = 2*dx - dy;
   int16_t x = x0;
 
-  if ( y0 < y1){
+  if (y0 < y1){
     for (int16_t y = y0; y <= y1; y++){
       SSD1351_write_pixel(x, y, color);
       if (D > 0){
@@ -426,4 +429,89 @@ void SSD1351_draw_filled_circle(uint16_t xc, uint16_t yc, uint16_t r, uint16_t c
     }
     draw_filled_circle(xc, yc, x, y, color);
   }
+}
+
+void SSD1351_write_char(uint16_t color, font_t font, char c){
+  uint16_t fd;
+  if ((COLUMNS <= SSD1351_cursor.x + font.width) || (ROWS <= SSD1351_cursor.y + font.height)){
+    return;
+  }
+  if (c == '\n'){
+    SSD1351_cursor.x = 127;
+  }
+  else{
+    for (int i = 0; i < font.height; i++){
+        fd = font.data[(c - 32) * font.height + i];
+        for (int j = 0; j < font.width; j++){
+          if ((fd << j) & 0x8000){
+            SSD1351_write_pixel(SSD1351_cursor.x + j, SSD1351_cursor.y + i, color);
+          }
+        }
+      }
+  }
+  SSD1351_cursor.x += font.width;
+  if ((SSD1351_cursor.x + font.width >= 127) & (SSD1351_cursor.y + font.height <= 127)){
+    SSD1351_cursor.y = SSD1351_cursor.y + font.height + 2;
+    SSD1351_cursor.x = 0;
+  }
+  return;
+}
+
+
+void SSD1351_write_string(uint16_t color, font_t font, char *line){
+  if (line == NULL){
+    return;
+  }
+  while (*line != 0){
+    SSD1351_write_char(color, font, *line);
+    line++;
+  }
+}
+
+/*
+ * @brief Prints a formatted string to the display
+ * @param color: unsigned integer for the color of the string
+ * @param font: structure holding the type of font
+ * @param format: formatted string
+ */
+void SSD1351_printf(uint16_t color, font_t font, const char *format, ...){
+  if (format == NULL){
+    return;
+  }
+  va_list valist;
+  va_start(valist, format);
+  while (*format != 0){
+    if (*format != '%'){
+      SSD1351_write_char(color, font, *format);
+      format++;
+    }
+    else{
+      format++;
+      switch(*format){
+        case 's':
+          SSD1351_write_string(color, font, va_arg(valist, char *));
+          break;
+        case 'c':
+          SSD1351_write_char(color, font, va_arg(valist, int)); //?
+          break;
+        case 'i':
+          SSD1351_write_char(color, font, (char)(va_arg(valist, int) + 48));
+          break;
+        default:
+          break;
+      }
+      format++;
+    }
+  }
+}
+
+/*
+ * @brief Sets the printing cursor to a positioin
+ * @param x: integer for the x position for the cursor
+ * @para y: integer for the y position for the cursor
+ */
+
+void SSD1351_set_cursor(uint8_t x, uint8_t y){
+  SSD1351_cursor.x = x;
+  SSD1351_cursor.y = y;
 }
