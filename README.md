@@ -4,6 +4,7 @@ Driver library for the SSD1351 128x128 RGB OLED Display intended for generic use
 Unit testing is implemented through Ceedling.
 
 Added support for:
+* Formatted string printing
 * Drawing single pixels
 * Drawing lines
 * Drawing rectangles and filled rectangles
@@ -13,4 +14,4 @@ Added support for:
 
 To Do:
 * Add support for rotated rectangles
-* Extend Display configuration such as color mode, etc.
+* Extend Display configuration such as color mode, frequency, etc.
