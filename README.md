@@ -13,5 +13,4 @@ Added support for:
 * RGB color encoding
 
 To Do:
-* Add support for rotated rectangles
-* Extend Display configuration such as color mode, frequency, etc.
+* Extend Display configurations such as color depth, frequency, etc.

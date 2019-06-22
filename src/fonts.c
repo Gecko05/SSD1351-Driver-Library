@@ -1,4 +1,3 @@
-
 #include "fonts.h"
 
 // Dit zijn de bitmaps voor de 3 verschillende fonts

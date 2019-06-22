@@ -56,7 +56,7 @@ void update_pixel_params(int16_t x, int16_t y, uint16_t col){
 
  color = col;
 
- a_pos = x_pos + (128 * y_pos);
+ a_pos = (127 - x_pos) + (128 * y_pos);
 
 }
 
@@ -122,7 +122,7 @@ void test_SSD1351_write_pixel(void){
 
  SSD1351_write_pixel(x_pos, y_pos, color);
 
- UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((displayRAM.halfw[a_pos])), (UNITY_INT)(UNITY_UINT16)((color)), (
+ UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((color)), (UNITY_INT)(UNITY_UINT16)((displayRAM.halfw[a_pos])), (
 
 ((void *)0)
 
@@ -134,7 +134,7 @@ void test_SSD1351_write_pixel(void){
 
  SSD1351_write_pixel(x_pos, y_pos, color);
 
- UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((displayRAM.halfw[a_pos])), (UNITY_INT)(UNITY_UINT16)((color)), (
+ UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((color)), (UNITY_INT)(UNITY_UINT16)((displayRAM.halfw[a_pos])), (
 
 ((void *)0)
 
@@ -146,7 +146,7 @@ void test_SSD1351_write_pixel(void){
 
  SSD1351_write_pixel(x_pos, y_pos, color);
 
- UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((displayRAM.halfw[a_pos])), (UNITY_INT)(UNITY_UINT16)((color)), (
+ UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((color)), (UNITY_INT)(UNITY_UINT16)((displayRAM.halfw[a_pos])), (
 
 ((void *)0)
 
@@ -158,7 +158,7 @@ void test_SSD1351_write_pixel(void){
 
  SSD1351_write_pixel(x_pos, y_pos, color);
 
- UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((displayRAM.halfw[a_pos])), (UNITY_INT)(UNITY_UINT16)((color)), (
+ UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((color)), (UNITY_INT)(UNITY_UINT16)((displayRAM.halfw[a_pos])), (
 
 ((void *)0)
 

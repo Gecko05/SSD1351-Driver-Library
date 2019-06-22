@@ -1,7 +1,14 @@
+/*
+     Driver library for the SSD1351 OLED Display developed by Jaime Centeno(Gecko05)
+                             https://github.com/Gecko05
+     Designed to be of generic use under a Hardware Abstraction Layer
+     fonts.c and fonts.h based on ssd1306-stm32HAL by Olivier Van den Eede(4ilo)
+ */
+
 #ifndef SSD1351_H
 #define SSD1351_H
 
-#include <myHAL.h> // Library for my SPI
+#include "myHAL.h"   // Library for SPI HAL
 #include "stdbool.h"
 #include "stdlib.h"
 #include "stdio.h"
@@ -10,11 +17,12 @@
 #include <stdarg.h>
 #include "fonts.h"
 
+// Static definitions for
 #ifdef TEST
     #define STATIC
-#else /* ifdef TEST */
+#else
     #define STATIC  static
-#endif /* ifdef TEST */
+#endif // TEST
 
 /*------- CONFIGURE THIS TO YOUR OWN HARDWARE AND HAL -------*/
 // PC0 = RESET      PC1 = D/C#      PB0 = CS
@@ -31,9 +39,11 @@
 /* Definitions for SPI functions */
 #define SSD1351_SendBuffer(buffer, len) SPI_TXBuffer(buffer, len)
 #define SSD1351_SendByte(data) SPI_TXByte(data)
+
 /* Definitions for GPIO pin functions */
 #define SSD1351_SetPin(PORT, PIN) GPIO_SetPin(PORT, PIN)
 #define SSD1351_ClearPin(PORT, PIN) GPIO_ResetPin(PORT, PIN)
+
 /* Definition for delay function */
 #define SSD1351_DelayMs(x) HAL_Delay(x)
 /*--------------------------------------------------*/
@@ -83,7 +93,7 @@ typedef union DisplayRAM{
 #define SSD1351_CMD_STOPSCROLL      0x9E
 #define SSD1351_CMD_STARTSCROLL     0x9F
 
-//           Colors
+//           Some color definitions
 #define COLOR_BLUE 0x00F8
 #define COLOR_RED 0x1F00
 #define COLOR_GREEN 0xE007

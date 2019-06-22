@@ -28,7 +28,7 @@ void update_pixel_params(int16_t x, int16_t y, uint16_t col){
 	x_pos = x;
 	y_pos = y;
 	color = col;
-	a_pos = x_pos + (128 * y_pos);
+	a_pos = (127 - x_pos) + (128 * y_pos);
 }
 
 void print_compRAM(void){
@@ -61,19 +61,19 @@ void test_SSD1351_write_pixel(void){
 /* Test with various positions */
 	update_pixel_params(120, 0, 0xFFAA);
 	SSD1351_write_pixel(x_pos, y_pos, color);
-	TEST_ASSERT_EQUAL_UINT16(displayRAM.halfw[a_pos], color);
+	TEST_ASSERT_EQUAL_UINT16(color, displayRAM.halfw[a_pos]);
 
 	update_pixel_params(0, 0, 0xC0AB);
 	SSD1351_write_pixel(x_pos, y_pos, color);
-	TEST_ASSERT_EQUAL_UINT16(displayRAM.halfw[a_pos], color);
+	TEST_ASSERT_EQUAL_UINT16(color, displayRAM.halfw[a_pos]);
 
 	update_pixel_params(127, 127, 0x185A);
 	SSD1351_write_pixel(x_pos, y_pos, color);
-	TEST_ASSERT_EQUAL_UINT16(displayRAM.halfw[a_pos], color);
+	TEST_ASSERT_EQUAL_UINT16(color, displayRAM.halfw[a_pos]);
 
 	update_pixel_params(0, 99, 0xAFE1);
 	SSD1351_write_pixel(x_pos, y_pos, color);
-	TEST_ASSERT_EQUAL_UINT16(displayRAM.halfw[a_pos], color);
+	TEST_ASSERT_EQUAL_UINT16(color, displayRAM.halfw[a_pos]);
 
 /* Test with positions outside of the screen dimensions */
 

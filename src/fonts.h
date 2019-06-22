@@ -1,8 +1,7 @@
-
-#include "stm32l1xx_hal.h"
-
 #ifndef SSD1351_FONTS_H
 #define SSD1351_FONTS_H
+
+#include "stdint.h"
 
 #define small_font Font_7x10
 #define med_font Font_11x18
@@ -22,4 +21,3 @@ extern font_t Font_11x18;
 extern font_t Font_16x26;
 
 #endif // SSD1351_FONTS_H
-

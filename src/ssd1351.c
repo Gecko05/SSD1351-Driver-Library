@@ -216,7 +216,7 @@ void SSD1351_write_pixel(int16_t x, int16_t y, uint16_t color){
 
 /*  LINE DRAWING FUNCTIONS */
 
-static void SSD1351_draw_line_low(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
+STATIC void SSD1351_draw_line_low(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
   int16_t dx = x1 - x0;
   int16_t dy = y1 - y0;
   int16_t yi = 1;
@@ -250,7 +250,7 @@ static void SSD1351_draw_line_low(int16_t x0, int16_t y0, int16_t x1, int16_t y1
 
 }
 
-static void SSD1351_draw_line_high(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
+STATIC void SSD1351_draw_line_high(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color){
   int16_t dx = x1 - x0;
   int16_t dy = y1 - y0;
   int16_t xi = 1;
@@ -431,7 +431,7 @@ void SSD1351_draw_filled_circle(uint16_t xc, uint16_t yc, uint16_t r, uint16_t c
   }
 }
 
-void SSD1351_write_char(uint16_t color, font_t font, char c){
+STATIC void SSD1351_write_char(uint16_t color, font_t font, char c){
   uint16_t fd;
   if ((COLUMNS <= SSD1351_cursor.x + font.width) || (ROWS <= SSD1351_cursor.y + font.height)){
     return;
@@ -458,7 +458,7 @@ void SSD1351_write_char(uint16_t color, font_t font, char c){
 }
 
 
-void SSD1351_write_string(uint16_t color, font_t font, char *line){
+STATIC void SSD1351_write_string(uint16_t color, font_t font, char *line){
   if (line == NULL){
     return;
   }
