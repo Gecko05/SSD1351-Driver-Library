@@ -17,13 +17,6 @@
 #include <stdarg.h>
 #include "fonts.h"
 
-// Static definitions for
-#ifdef TEST
-    #define STATIC
-#else
-    #define STATIC  static
-#endif // TEST
-
 /*------- CONFIGURE THIS TO YOUR OWN HARDWARE AND HAL -------*/
 // PC0 = RESET      PC1 = D/C#      PB0 = CS
 
@@ -47,6 +40,13 @@
 /* Definition for delay function */
 #define SSD1351_DelayMs(x) HAL_Delay(x)
 /*--------------------------------------------------*/
+
+// Static definition for testing purposes on Ceedling
+#ifdef TEST
+    #define STATIC
+#else
+    #define STATIC  static
+#endif // TEST
 
 #ifdef OLED_128x128
 #define DRAM_SIZE_8 32768
