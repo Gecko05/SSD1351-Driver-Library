@@ -8,7 +8,6 @@
 #ifndef SSD1351_H
 #define SSD1351_H
 
-#include "myHAL.h"   // Library for SPI HAL
 #include "stdbool.h"
 #include "stdlib.h"
 #include "stdio.h"
@@ -19,6 +18,8 @@
 
 /*------- CONFIGURE THIS TO YOUR OWN HARDWARE AND HAL -------*/
 // PC0 = RESET      PC1 = D/C#      PB0 = CS
+
+#include "myHAL.h"   // Header for SPI HAL
 
 #define RESET_PORT GPIOC
 #define RESET_PIN GPIO_PIN_0

@@ -6,6 +6,7 @@ STATIC DRAM displayRAM;
 #define DRAM_16 displayRAM.halfw
 #define DRAM_8 displayRAM.byte
 
+/* Screen cursor for printing */
 struct cursor{
   uint8_t x;
   uint8_t y;
@@ -16,7 +17,7 @@ struct cursor{
   * @param  cmd: command to send
   * @retval None
   */
-void SSD1351_write_command(uint8_t cmd){
+STATIC void SSD1351_write_command(uint8_t cmd){
   SSD1351_ClearPin(DC_PORT, DC_PIN);
   SSD1351_ClearPin(CS_PORT, CS_PIN);
   SSD1351_SendByte(cmd);
@@ -28,7 +29,7 @@ void SSD1351_write_command(uint8_t cmd){
   * @param  data: data byte to send
   * @retval None
   */
-void SSD1351_write_data(uint8_t data){
+STATIC void SSD1351_write_data(uint8_t data){
   SSD1351_SetPin(DC_PORT, DC_PIN);
   SSD1351_ClearPin(CS_PORT, CS_PIN);
   SSD1351_SendByte(data);
@@ -41,7 +42,7 @@ void SSD1351_write_data(uint8_t data){
   * @param  len: integer with length of buffer to send
   * @retval None
   */
-void SSD1351_write_data_buffer(uint8_t *data, uint32_t len){
+STATIC void SSD1351_write_data_buffer(uint8_t *data, uint32_t len){
   SSD1351_SetPin(DC_PORT, DC_PIN);
   SSD1351_ClearPin(CS_PORT, CS_PIN);
   SSD1351_SendBuffer(DRAM_8, DRAM_SIZE_8);
@@ -457,7 +458,6 @@ STATIC void SSD1351_write_char(uint16_t color, font_t font, char c){
   return;
 }
 
-
 STATIC void SSD1351_write_string(uint16_t color, font_t font, char *line){
   if (line == NULL){
     return;
@@ -466,6 +466,12 @@ STATIC void SSD1351_write_string(uint16_t color, font_t font, char *line){
     SSD1351_write_char(color, font, *line);
     line++;
   }
+}
+
+STATIC void SSD1351_write_int(uint16_t color, font_t font, int8_t n){
+  char number[5];
+  sprintf(number, "%i", n);
+  SSD1351_write_string(color, font, number);
 }
 
 /*
@@ -495,7 +501,7 @@ void SSD1351_printf(uint16_t color, font_t font, const char *format, ...){
           SSD1351_write_char(color, font, va_arg(valist, int)); //?
           break;
         case 'i':
-          SSD1351_write_char(color, font, (char)(va_arg(valist, int) + 48));
+          SSD1351_write_int(color, font, (int8_t)va_arg(valist, int));
           break;
         default:
           break;
