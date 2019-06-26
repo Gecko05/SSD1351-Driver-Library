@@ -117,8 +117,6 @@ void SSD1351_write_pixel(int16_t x, int16_t y, uint16_t color);
 
 void SSD1351_update(void);
 
-void SSD1351_update_area(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1);
-
 void SSD1351_draw_line(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
 
 void SSD1351_draw_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
