@@ -5,7 +5,7 @@
 #ifndef SSD1351_FONTS_H
 #define SSD1351_FONTS_H
 
-#include "stdint.h"
+#include <stdint.h>
 
 #define small_font Font_7x10
 #define med_font Font_11x18
