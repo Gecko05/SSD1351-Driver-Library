@@ -53,10 +53,6 @@ void setUp(void){
 	memset(displayRAM.halfw, 0, 16384);
 }
 
-void tearDown(void){
-
-}
-
 void test_SSD1351_write_pixel(void){
 /* Test with various positions */
 	update_pixel_params(120, 0, 0xFFAA);
