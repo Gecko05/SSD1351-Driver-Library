@@ -2,7 +2,8 @@
 
 Driver library for the SSD1351 128x128 RGB OLED Display intended for generic use under C in any microcontroller.
 Unit testing is implemented through Ceedling.
-[Description entry](https://gecko05.github.io/2019/06/23/rgb-library.html)
+
+[Check the blog entry](https://gecko05.github.io/2019/06/23/rgb-library.html)
 
 Added support for:
 * Formatted string printing
