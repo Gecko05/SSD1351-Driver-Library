@@ -3,8 +3,8 @@
   :path: test
   :file: test_ssd1351.c
 :successes:
-- :test: test_write_pixel_SSD1351
-  :line: 39
+- :test: test_SSD1351_write_pixel
+  :line: 60
   :message: ''
 :failures: []
 :ignores: []
@@ -14,4 +14,4 @@
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.0024153470003511757
+:time: 0.0034814470000128495

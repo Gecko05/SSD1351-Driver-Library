@@ -32,7 +32,7 @@
 #include <setjmp.h>
 #endif
 #include <stdio.h>
-#include "mock_stm32l1xx_hal.h"
+#include "mock_myHAL.h"
 
 int GlobalExpectCount;
 int GlobalVerifyOrder;
@@ -41,7 +41,7 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_write_pixel_SSD1351(void);
+extern void test_SSD1351_write_pixel(void);
 
 
 /*=======Mock Management=====*/
@@ -50,15 +50,15 @@ static void CMock_Init(void)
   GlobalExpectCount = 0;
   GlobalVerifyOrder = 0;
   GlobalOrderError = NULL;
-  mock_stm32l1xx_hal_Init();
+  mock_myHAL_Init();
 }
 static void CMock_Verify(void)
 {
-  mock_stm32l1xx_hal_Verify();
+  mock_myHAL_Verify();
 }
 static void CMock_Destroy(void)
 {
-  mock_stm32l1xx_hal_Destroy();
+  mock_myHAL_Destroy();
 }
 
 /*=======Suite Setup=====*/
@@ -96,7 +96,7 @@ int main(void)
 {
   suite_setup();
   UnityBegin("test_ssd1351.c");
-  RUN_TEST(test_write_pixel_SSD1351, 39);
+  RUN_TEST(test_SSD1351_write_pixel, 60);
 
   CMock_Guts_MemFreeFinal();
   return suite_teardown(UnityEnd());
