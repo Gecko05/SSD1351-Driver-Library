@@ -366,7 +366,7 @@ void SSD1351_draw_rotated_rect(int16_t xc, int16_t yc, int16_t w, int16_t h, int
   int16_t y0 = yc + (hyp * cos(rad));
 }*/
 
-STATIC void draw_circle(uint16_t xc, uint16_t yc, uint16_t x, uint16_t y, uint16_t color){
+STATIC void draw_circle(int16_t xc, int16_t yc, int16_t x, int16_t y, uint16_t color){
   SSD1351_write_pixel(xc + x, yc + y, color);
   SSD1351_write_pixel(xc - x, yc + y, color);
   SSD1351_write_pixel(xc + x, yc - y, color);
@@ -377,7 +377,7 @@ STATIC void draw_circle(uint16_t xc, uint16_t yc, uint16_t x, uint16_t y, uint16
   SSD1351_write_pixel(xc - y, yc - x, color);
 }
 
-STATIC void draw_filled_circle(uint16_t xc, uint16_t yc, uint16_t x, uint16_t y, uint16_t color){
+STATIC void draw_filled_circle(int16_t xc, int16_t yc, int16_t x, int16_t y, uint16_t color){
   SSD1351_draw_line(xc - x, yc + y, xc + x, yc + y, color);
   SSD1351_draw_line(xc - x, yc - y, xc + x, yc - y, color);
   SSD1351_draw_line(xc -y, yc + x, xc + y, yc + x, color);
@@ -391,7 +391,7 @@ STATIC void draw_filled_circle(uint16_t xc, uint16_t yc, uint16_t x, uint16_t y,
  * @param color: color for the border
  * @reval None
  */
-void SSD1351_draw_circle(uint16_t xc, uint16_t yc, uint16_t r, uint16_t color){
+void SSD1351_draw_circle(int16_t xc, int16_t yc, uint16_t r, uint16_t color){
   int x = 0, y = r;
   int d = 3 - 2 * r;
   draw_circle(xc, yc, x, y, color);
@@ -415,7 +415,7 @@ void SSD1351_draw_circle(uint16_t xc, uint16_t yc, uint16_t r, uint16_t color){
  * @param color: color for the circle
  * @reval None
  */
-void SSD1351_draw_filled_circle(uint16_t xc, uint16_t yc, uint16_t r, uint16_t color){
+void SSD1351_draw_filled_circle(int16_t xc, int16_t yc, uint16_t r, uint16_t color){
   int x = 0, y = r;
   int d = 3 - 2 * r;
   draw_filled_circle(xc, yc, x, y, color);
@@ -514,10 +514,27 @@ void SSD1351_printf(uint16_t color, font_t font, const char *format, ...){
 /*
  * @brief Sets the printing cursor to a positioin
  * @param x: integer for the x position for the cursor
- * @para y: integer for the y position for the cursor
+ * @param y: integer for the y position for the cursor
  */
 
 void SSD1351_set_cursor(uint8_t x, uint8_t y){
   SSD1351_cursor.x = x;
   SSD1351_cursor.y = y;
 }
+
+/*
+ * @brief Draws a sprite
+ * @param sp: pointer to struct holding sprite data
+ */
+
+void SSD1351_draw_sprite(int16_t x, int16_t y, sprite *sp){
+  for (int i = 0; i < sp->width; i++){
+    for (int j = 0; j < sp->height; j++){
+      uint16_t color = color_palette[sp->content[i + (j * sp->width)]];
+      if (color != 0){
+        SSD1351_write_pixel(x + i, y + j, color);
+      }
+    }
+  }
+}
+

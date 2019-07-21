@@ -96,7 +96,7 @@ int main(void)
 {
   suite_setup();
   UnityBegin("test_ssd1351.c");
-  RUN_TEST(test_SSD1351_write_pixel, 60);
+  RUN_TEST(test_SSD1351_write_pixel, 56);
 
   CMock_Guts_MemFreeFinal();
   return suite_teardown(UnityEnd());
