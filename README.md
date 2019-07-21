@@ -6,6 +6,7 @@ Unit testing is implemented through Ceedling.
 [Check the blog entry](https://gecko05.github.io/2019/06/23/rgb-library.html)
 
 Added support for:
+* Drawing sprites
 * Formatted string printing
 * Drawing single pixels
 * Drawing lines
