@@ -15,6 +15,7 @@
 #include <math.h>
 #include <stdarg.h>
 #include "fonts.h"
+#include "sprites.h"
 
 /*------- CONFIGURE THIS TO YOUR OWN HARDWARE AND HAL -------*/
 // PC0 = RESET      PC1 = D/C#      PB0 = CS
@@ -98,6 +99,9 @@ typedef union DisplayRAM{
 #define COLOR_BLUE 0x00F8
 #define COLOR_RED 0x1F00
 #define COLOR_GREEN 0xE007
+#define COLOR_YELLOW 0xFF07
+#define COLOR_PURPLE 0x1FF8
+#define COLOR_AQUA 0xE0FF
 #define COLOR_BLACK 0x0000
 #define COLOR_WHITE 0xFFFF
 
@@ -123,12 +127,14 @@ void SSD1351_draw_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t colo
 
 void SSD1351_draw_filled_rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
 
-void SSD1351_draw_circle(uint16_t xc, uint16_t yc, uint16_t r, uint16_t color);
+void SSD1351_draw_circle(int16_t xc, int16_t yc, uint16_t r, uint16_t color);
 
-void SSD1351_draw_filled_circle(uint16_t xc, uint16_t yc, uint16_t r, uint16_t color);
+void SSD1351_draw_filled_circle(int16_t xc, int16_t yc, uint16_t r, uint16_t color);
 
 void SSD1351_printf(uint16_t color, font_t font, const char *format, ...);
 
 void SSD1351_set_cursor(uint8_t x, uint8_t y);
+
+void SSD1351_draw_sprite(int16_t x, int16_t y, sprite *sp);
 
 #endif //SSD1351_H

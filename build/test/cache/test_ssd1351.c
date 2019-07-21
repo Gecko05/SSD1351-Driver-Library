@@ -106,14 +106,6 @@ void setUp(void){
 
 
 
-void tearDown(void){
-
-
-
-}
-
-
-
 void test_SSD1351_write_pixel(void){
 
 
@@ -126,7 +118,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(64), UNITY_DISPLAY_STYLE_UINT16);
+), (UNITY_UINT)(60), UNITY_DISPLAY_STYLE_UINT16);
 
 
 
@@ -138,7 +130,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(68), UNITY_DISPLAY_STYLE_UINT16);
+), (UNITY_UINT)(64), UNITY_DISPLAY_STYLE_UINT16);
 
 
 
@@ -150,7 +142,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(72), UNITY_DISPLAY_STYLE_UINT16);
+), (UNITY_UINT)(68), UNITY_DISPLAY_STYLE_UINT16);
 
 
 
@@ -162,7 +154,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(76), UNITY_DISPLAY_STYLE_UINT16);
+), (UNITY_UINT)(72), UNITY_DISPLAY_STYLE_UINT16);
 
 
 
@@ -176,7 +168,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(81), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(77), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -188,7 +180,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(85), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(81), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -200,7 +192,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(89), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(85), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -212,7 +204,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(93), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(89), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -224,7 +216,7 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(97), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(93), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 
 
@@ -236,6 +228,6 @@ void test_SSD1351_write_pixel(void){
 
 ((void *)0)
 
-), (UNITY_UINT)(101), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
+), (UNITY_UINT)(97), UNITY_DISPLAY_STYLE_UINT16, UNITY_ARRAY_TO_ARRAY);
 
 }
