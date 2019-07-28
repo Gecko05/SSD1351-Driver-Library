@@ -1,8 +1,8 @@
 def encodecolor(colorhex):
     encoded = 0
-    red = (colorhex & 0xFF0000) >> 16
+    blue = (colorhex & 0xFF0000) >> 16
     green = (colorhex & 0x00FF00) >> 8
-    blue = colorhex & 0x0000FF
+    red = colorhex & 0x0000FF
     encoded |= (int(red/8) << 8)
     encoded |= (int(green/4) >> 3)
     encoded |= ((int(green/4) % 0x07) << 13)
