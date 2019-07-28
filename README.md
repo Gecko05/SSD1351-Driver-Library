@@ -20,10 +20,13 @@ To Do:
 * Extend Display configurations such as color depth, frequency, etc.
 
 # Converting sprites
-Load a bitmap image created with Aseprite to the same folder where convertsprites.py is located, then call and loaded_sprites.c, loaded_sprites.h and color_palette.c files will be generated with the converted sprites.
+Load a bitmap image created with Aseprite to the same folder where convertsprites.py is located, then call:
 ```
-python3 convertsprites.py "<your-bitmap-image-name.bmp>"
+python3 convertsprites.py "<sprite-name0>.bmp"[, "<sprite-name1>.bmp", ...]
 ```
+Loaded_sprites.c, Loaded_sprites.h and color_palette.c files will be generated with the converted sprites.
+
+Note that the color palette used in Aseprite will be translated to the equivalent colors under the library's color mode.
 
 # Demo
 

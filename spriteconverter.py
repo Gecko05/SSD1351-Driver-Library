@@ -54,7 +54,8 @@ def convertsprites(spriteList):
         eprint(cfile, '};\n\n')
         eprint(cfile, 'sprite ' + 'sprite' + str(c) + ' = {\n  .width = ' + \
           str(width) + ',\n  .height = ' + str(height) \
-          + ',\n  .content = ' + sprite_name + ',\n};\n')
+          + ',\n  .content = ' + sprite_name + ',\n};\n\n')
+        c = c + 1
     cfile.close()
     sfile.close()
     pfile.close()
