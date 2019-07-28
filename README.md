@@ -6,6 +6,8 @@ Unit testing is implemented through Ceedling.
 [Check the blog entry](https://gecko05.github.io/2019/06/23/rgb-library.html)
 
 Added support for:
+* Drawing sprites
+* Importing sprites from a .bmp file made in Aseprite
 * Formatted string printing
 * Drawing single pixels
 * Drawing lines
@@ -16,6 +18,12 @@ Added support for:
 
 To Do:
 * Extend Display configurations such as color depth, frequency, etc.
+
+# Converting sprites
+Load a bitmap image created with Aseprite to the same folder where convertsprites.py is located, then call and loaded_sprites.c, loaded_sprites.h and color_palette.c files will be generated with the converted sprites.
+```
+python3 convertsprites.py "<your-bitmap-image-name.bmp>"
+```
 
 # Demo
 
@@ -34,16 +42,16 @@ int main(){
   int g = 100;
   int b = 240;
   int gd = 1;
-  #ifdef DEMO_CIRCLES
+#ifdef DEMO_CIRCLES
   int c0, c1, c2, c3, c4;
   c0 = 5;
   c1 = 25;
   c2 = 45;
   c3 = 65;
   c4 = 85;
-  #endif // DEMO_CIRCLES
+#endif // DEMO_CIRCLES
   while(1){
-  #ifdef DEMO_PRINT
+#ifdef DEMO_PRINT
     //          D E M O    P R I N T
     SSD1351_set_cursor(0, 0);
     SSD1351_printf(SSD1351_get_rgb(r, g, b), med_font, "Hello worldI spent \n%i %s\n", 17, "dollars");
@@ -63,15 +71,15 @@ int main(){
     else if (g <= 100){
       gd = !gd;
     }
-  #endif // DEMO_PRINT
-  #ifdef DEMO RECTANGLES
+#endif // DEMO_PRINT
+#ifdef DEMO RECTANGLES
     //          D E M O    R E C T A N G L E S
       for (int i = 128; i > 0;i-=12){
       SSD1351_draw_filled_rect( 64 - i/2, 64 - i/2, i, i, 0x1111 + rand());
       SSD1351_update();
     }
-  #endif // DEMO_RECTANGLES
-  #ifdef DEMO_CIRCLES
+#endif // DEMO_RECTANGLES
+#ifdef DEMO_CIRCLES
     //          D E M O    C I R C L E S
     c0+=5;
     c1+=5;
@@ -108,7 +116,11 @@ int main(){
       SSD1351_draw_filled_circle(64, 64, arr[maxi], SSD1351_get_rgb(20, green[maxi], blu[maxi]));
       arr[maxi] = 0;
     }
-  #endif // DEMO_CIRCLES
+#endif // DEMO_CIRCLES
+  //          D E M O    S P R I T E S
+#ifdef DEMO_SPRITES
+SSD1351_draw_sprite(0, 0, &sprite0);
+#endif // DEMO_SPRITES
     SSD1351_update();
     if (!HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin)){
       SSD1351_stop();

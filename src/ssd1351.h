@@ -15,7 +15,8 @@
 #include <math.h>
 #include <stdarg.h>
 #include "fonts.h"
-#include "sprites.h"
+#include "loaded_sprites.h"
+#include "color_palette.h"
 
 /*------- CONFIGURE THIS TO YOUR OWN HARDWARE AND HAL -------*/
 // PC0 = RESET      PC1 = D/C#      PB0 = CS

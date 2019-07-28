@@ -10,9 +10,4 @@ typedef struct Sprite{
   uint8_t height;
 } sprite;
 
-uint16_t color_palette[16];
-
-// Sprite declarations
-sprite pacman;
-
 #endif // SPRITES_H
