@@ -2,3 +2,4 @@
 
 sprite sprite0;
 sprite sprite1;
+sprite sprite2;

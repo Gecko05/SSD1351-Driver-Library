@@ -106,6 +106,8 @@ typedef union DisplayRAM{
 #define COLOR_BLACK 0x0000
 #define COLOR_WHITE 0xFFFF
 
+#define SSD_PRINTF(...) SSD1351_printf(COLOR_WHITE, small_font, __VA_ARGS__)
+
 extern struct cursor SSD1351_cursor;
 
 uint16_t SSD1351_get_rgb(uint8_t r, uint8_t g, uint8_t b);
