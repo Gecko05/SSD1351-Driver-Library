@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 typedef struct Sprite{
-  uint8_t *content;
+  const uint8_t *content;
   uint8_t width;
   uint8_t height;
 } sprite;
