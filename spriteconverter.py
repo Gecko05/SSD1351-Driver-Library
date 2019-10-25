@@ -44,7 +44,8 @@ def convertsprites(spriteList):
         #print("Width: ",width, "Height: ", height, "Offset: ", offset)
         print("Writing data...")
         sprite_name = 'sprite' + str(c) + '_data'
-        eprint(cfile, 'uint8_t ' + sprite_name + '[] = {\n')
+        eprint(cfile, '// ' + bmp + '\n')
+        eprint(cfile, 'const uint8_t ' + sprite_name + '[] = {\n')
         eprint(sfile, 'sprite ' + 'sprite' + str(c) + ';\n')
         for y in range(0, height):
             eprint(cfile,'        ')

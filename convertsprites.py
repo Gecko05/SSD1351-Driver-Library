@@ -8,5 +8,5 @@ try:
     os.remove("src/color_palette.c")
     os.remove("src/loaded_palette.h")
 except:
-    print("One or more files weren't loaded")
+    print("Loaded")
 sp.convertsprites(sys.argv)

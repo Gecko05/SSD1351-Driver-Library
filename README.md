@@ -1,7 +1,7 @@
 # SSD1351 Driver Library
 
 Driver library for the SSD1351 128x128 RGB OLED Display intended for generic use under C in any microcontroller.
-Unit testing is implemented through Ceedling.
+Unit testing is implemented with Ceedling.
 
 [Check the blog entry](https://gecko05.github.io/2019/06/23/rgb-library.html)
 
@@ -26,11 +26,11 @@ python3 convertsprites.py "<sprite-name0>.bmp"[, "<sprite-name1>.bmp", ...]
 ```
 Loaded_sprites.c, Loaded_sprites.h and color_palette.c files will be generated with the converted sprites.
 
-Note that the color palette used in Aseprite will be translated to the equivalent colors under the library's color mode.
+Note that the color palette used in Aseprite will be translated to the equivalent colors under the library's color mode and this will be performed just once, so make sure to use the same palette across all the sprites.
 
 # Demo
 
-Sample code includes three demos; printing, lines and circles
+Sample code includes three demos; printing, lines, circles and a sprite
 
 ```
 #include "ssd1351.h"

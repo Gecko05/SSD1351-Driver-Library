@@ -2,3 +2,27 @@
 
 sprite sprite0;
 sprite sprite1;
+sprite sprite2;
+sprite sprite3;
+sprite sprite4;
+sprite sprite5;
+sprite sprite6;
+sprite sprite7;
+sprite sprite8;
+sprite sprite9;
+sprite sprite10;
+sprite sprite11;
+sprite sprite12;
+sprite sprite13;
+sprite sprite14;
+sprite sprite15;
+sprite sprite16;
+sprite sprite17;
+sprite sprite18;
+sprite sprite19;
+sprite sprite20;
+sprite sprite21;
+sprite sprite22;
+sprite sprite23;
+sprite sprite24;
+sprite sprite25;
