@@ -1,5 +1,4 @@
 # SSD1351 Driver Library
-
 Driver library for the SSD1351 128x128 RGB OLED Display intended for generic use under C in any microcontroller.
 Unit testing is implemented with Ceedling.
 
