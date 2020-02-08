@@ -3,6 +3,8 @@
 Driver library for the SSD1351 128x128 RGB OLED Display intended for generic use under C in any microcontroller.
 Unit testing is implemented with Ceedling.
 
+*Remember to configure the ssd1351.h file GPIO, SPI definitions according to your own hardware*
+
 [Check the blog entry](https://gecko05.github.io/2019/06/23/rgb-library.html)
 
 Added support for:
@@ -33,7 +35,7 @@ Note that the color palette used in Aseprite will be translated to the equivalen
 Sample code includes three demos; printing, lines, circles and a sprite
 
 ```
-#include "ssd1351.h"
+#include "ssd1351.h" /* Important to configure this file to your own hardware */
 #include "math.h"
 #include "stdlib.h"
 
