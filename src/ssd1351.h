@@ -21,7 +21,10 @@
 /*------- CONFIGURE THIS TO YOUR OWN HARDWARE AND HAL -------*/
 // PC0 = RESET      PC1 = D/C#      PB0 = CS
 
-#include "myHAL.h"   // Header for SPI HAL
+#include "myHAL.h"   
+// Provide your own HAL SPI Communication definitions in myHAL.h as
+// SPI_TXByte(data) and SPI_TXBuffer(buffer, len)
+// and GPIO_SetPin(PORT, PIN) GPIO_ResetPin(PORT, PIN)
 
 #define RESET_PORT GPIOC
 #define RESET_PIN GPIO_PIN_0

@@ -34,7 +34,7 @@ Note that the color palette used in Aseprite will be translated to the equivalen
 Sample code includes three demos; printing, lines, circles and a sprite
 
 ```
-#include "ssd1351.h" /* Important to configure this file to your own hardware */
+#include "ssd1351.h" // Remember to configure this file to your own hardware
 #include "math.h"
 #include "stdlib.h"
 
