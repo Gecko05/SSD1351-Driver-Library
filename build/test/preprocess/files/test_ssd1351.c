@@ -1,6 +1,6 @@
 #include "build/temp/_test_ssd1351.c"
 #include "src/ssd1351.h"
-#include "mock_myHAL.h"
+#include "build/test/mocks/mock_myHAL.h"
 #include "/home/gecko/gems/gems/ceedling-0.29.1/vendor/unity/src/unity.h"
 
 

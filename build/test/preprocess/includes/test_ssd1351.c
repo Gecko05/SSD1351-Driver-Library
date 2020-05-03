@@ -1,5 +1,5 @@
 ---
 - "/home/gecko/gems/gems/ceedling-0.29.1/vendor/unity/src/unity.h"
-- mock_myHAL.h
+- build/test/mocks/mock_myHAL.h
 - src/ssd1351.h
 - build/temp/_test_ssd1351.c
