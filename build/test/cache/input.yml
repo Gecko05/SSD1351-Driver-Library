@@ -12,7 +12,7 @@
   :release_build: false
   :use_auxiliary_dependencies: true
   :build_root: build
-  :which_ceedling: vendor/ceedling
+  :which_ceedling: gem
   :default_tasks:
   - test:all
 :release_build:
@@ -47,17 +47,14 @@
   :release: []
   :release_preprocess: []
   :use_test_definition: false
-  :commmon: []
+  :common: []
 :libraries:
-  :test:
-  - &2 []
+  :test: []
   :test_preprocess: []
-  :release:
-  - *2
+  :release: []
   :release_preprocess: []
   :placement: :end
   :flag: "${1}"
-  :common: []
 :flags: {}
 :extension:
   :header: ".h"
@@ -71,10 +68,10 @@
   :testfail: ".fail"
   :dependencies: ".d"
 :unity:
-  :vendor_path: "/home/gecko/Embedded/STM/Projects/SSD1351/vendor/ceedling/vendor"
+  :vendor_path: "/home/gecko/gems/gems/ceedling-0.29.1/vendor"
   :defines: []
 :cmock:
-  :vendor_path: "/home/gecko/Embedded/STM/Projects/SSD1351/vendor/ceedling/vendor"
+  :vendor_path: "/home/gecko/gems/gems/ceedling-0.29.1/vendor"
   :defines: []
   :includes: []
   :mock_prefix: mock_
@@ -93,7 +90,7 @@
   :verbosity: 3
   :unity_helper: false
 :cexception:
-  :vendor_path: "/home/gecko/Embedded/STM/Projects/SSD1351/vendor/ceedling/vendor"
+  :vendor_path: "/home/gecko/gems/gems/ceedling-0.29.1/vendor"
   :defines: []
 :test_runner:
   :includes: []
@@ -188,18 +185,19 @@
   :arguments: []
 :plugins:
   :load_paths:
-  - vendor/ceedling/plugins
-  - vendor/ceedling/lib/../plugins
+  - "/home/gecko/gems/gems/ceedling-0.29.1/lib/../plugins"
   :enabled:
   - stdout_pretty_tests_report
   - module_generator
-  - raw_output_report
   :display_raw_test_results: false
-  :stdout_pretty_tests_report_path: vendor/ceedling/plugins/stdout_pretty_tests_report
-  :module_generator_path: vendor/ceedling/plugins/module_generator
-  :raw_output_report_path: vendor/ceedling/plugins/raw_output_report
+  :stdout_pretty_tests_report_path: "/home/gecko/gems/gems/ceedling-0.29.1/lib/../plugins/stdout_pretty_tests_report"
+  :module_generator_path: "/home/gecko/gems/gems/ceedling-0.29.1/lib/../plugins/module_generator"
 :gcov:
-  :html_report_type: basic
+  :html_report: true
+  :html_report_type: detailed
+  :html_medium_threshold: 75
+  :html_high_threshold: 90
+  :xml_report: false
 :module_generator:
   :project_root: "./"
   :source_root: src/

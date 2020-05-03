@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <setjmp.h>
-#include "unity.h"
 #include "cmock.h"
 #include "mock_myHAL.h"
 
@@ -64,22 +63,27 @@ typedef struct _CMOCK_HAL_Delay_CALL_INSTANCE
 static struct mock_myHALInstance
 {
   int SPI_TXBuffer_IgnoreBool;
+  int SPI_TXBuffer_CallbackBool;
   CMOCK_SPI_TXBuffer_CALLBACK SPI_TXBuffer_CallbackFunctionPointer;
   int SPI_TXBuffer_CallbackCalls;
   CMOCK_MEM_INDEX_TYPE SPI_TXBuffer_CallInstance;
   int SPI_TXByte_IgnoreBool;
+  int SPI_TXByte_CallbackBool;
   CMOCK_SPI_TXByte_CALLBACK SPI_TXByte_CallbackFunctionPointer;
   int SPI_TXByte_CallbackCalls;
   CMOCK_MEM_INDEX_TYPE SPI_TXByte_CallInstance;
   int GPIO_SetPin_IgnoreBool;
+  int GPIO_SetPin_CallbackBool;
   CMOCK_GPIO_SetPin_CALLBACK GPIO_SetPin_CallbackFunctionPointer;
   int GPIO_SetPin_CallbackCalls;
   CMOCK_MEM_INDEX_TYPE GPIO_SetPin_CallInstance;
   int GPIO_ResetPin_IgnoreBool;
+  int GPIO_ResetPin_CallbackBool;
   CMOCK_GPIO_ResetPin_CALLBACK GPIO_ResetPin_CallbackFunctionPointer;
   int GPIO_ResetPin_CallbackCalls;
   CMOCK_MEM_INDEX_TYPE GPIO_ResetPin_CallInstance;
   int HAL_Delay_IgnoreBool;
+  int HAL_Delay_CallbackBool;
   CMOCK_HAL_Delay_CALLBACK HAL_Delay_CallbackFunctionPointer;
   int HAL_Delay_CallbackCalls;
   CMOCK_MEM_INDEX_TYPE HAL_Delay_CallInstance;
@@ -92,36 +96,47 @@ extern int GlobalVerifyOrder;
 void mock_myHAL_Verify(void)
 {
   UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
+  CMOCK_MEM_INDEX_TYPE call_instance;
+  call_instance = Mock.SPI_TXBuffer_CallInstance;
   if (Mock.SPI_TXBuffer_IgnoreBool)
-    Mock.SPI_TXBuffer_CallInstance = CMOCK_GUTS_NONE;
+    call_instance = CMOCK_GUTS_NONE;
   UNITY_SET_DETAIL(CMockString_SPI_TXBuffer);
-  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == Mock.SPI_TXBuffer_CallInstance, cmock_line, CMockStringCalledLess);
+  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == call_instance, cmock_line, CMockStringCalledLess);
+  UNITY_CLR_DETAILS();
   if (Mock.SPI_TXBuffer_CallbackFunctionPointer != NULL)
-    Mock.SPI_TXBuffer_CallInstance = CMOCK_GUTS_NONE;
+    call_instance = CMOCK_GUTS_NONE;
+  call_instance = Mock.SPI_TXByte_CallInstance;
   if (Mock.SPI_TXByte_IgnoreBool)
-    Mock.SPI_TXByte_CallInstance = CMOCK_GUTS_NONE;
+    call_instance = CMOCK_GUTS_NONE;
   UNITY_SET_DETAIL(CMockString_SPI_TXByte);
-  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == Mock.SPI_TXByte_CallInstance, cmock_line, CMockStringCalledLess);
+  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == call_instance, cmock_line, CMockStringCalledLess);
+  UNITY_CLR_DETAILS();
   if (Mock.SPI_TXByte_CallbackFunctionPointer != NULL)
-    Mock.SPI_TXByte_CallInstance = CMOCK_GUTS_NONE;
+    call_instance = CMOCK_GUTS_NONE;
+  call_instance = Mock.GPIO_SetPin_CallInstance;
   if (Mock.GPIO_SetPin_IgnoreBool)
-    Mock.GPIO_SetPin_CallInstance = CMOCK_GUTS_NONE;
+    call_instance = CMOCK_GUTS_NONE;
   UNITY_SET_DETAIL(CMockString_GPIO_SetPin);
-  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == Mock.GPIO_SetPin_CallInstance, cmock_line, CMockStringCalledLess);
+  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == call_instance, cmock_line, CMockStringCalledLess);
+  UNITY_CLR_DETAILS();
   if (Mock.GPIO_SetPin_CallbackFunctionPointer != NULL)
-    Mock.GPIO_SetPin_CallInstance = CMOCK_GUTS_NONE;
+    call_instance = CMOCK_GUTS_NONE;
+  call_instance = Mock.GPIO_ResetPin_CallInstance;
   if (Mock.GPIO_ResetPin_IgnoreBool)
-    Mock.GPIO_ResetPin_CallInstance = CMOCK_GUTS_NONE;
+    call_instance = CMOCK_GUTS_NONE;
   UNITY_SET_DETAIL(CMockString_GPIO_ResetPin);
-  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == Mock.GPIO_ResetPin_CallInstance, cmock_line, CMockStringCalledLess);
+  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == call_instance, cmock_line, CMockStringCalledLess);
+  UNITY_CLR_DETAILS();
   if (Mock.GPIO_ResetPin_CallbackFunctionPointer != NULL)
-    Mock.GPIO_ResetPin_CallInstance = CMOCK_GUTS_NONE;
+    call_instance = CMOCK_GUTS_NONE;
+  call_instance = Mock.HAL_Delay_CallInstance;
   if (Mock.HAL_Delay_IgnoreBool)
-    Mock.HAL_Delay_CallInstance = CMOCK_GUTS_NONE;
+    call_instance = CMOCK_GUTS_NONE;
   UNITY_SET_DETAIL(CMockString_HAL_Delay);
-  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == Mock.HAL_Delay_CallInstance, cmock_line, CMockStringCalledLess);
+  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == call_instance, cmock_line, CMockStringCalledLess);
+  UNITY_CLR_DETAILS();
   if (Mock.HAL_Delay_CallbackFunctionPointer != NULL)
-    Mock.HAL_Delay_CallInstance = CMOCK_GUTS_NONE;
+    call_instance = CMOCK_GUTS_NONE;
 }
 
 void mock_myHAL_Init(void)
@@ -133,16 +148,6 @@ void mock_myHAL_Destroy(void)
 {
   CMock_Guts_MemFreeAll();
   memset(&Mock, 0, sizeof(Mock));
-  Mock.SPI_TXBuffer_CallbackFunctionPointer = NULL;
-  Mock.SPI_TXBuffer_CallbackCalls = 0;
-  Mock.SPI_TXByte_CallbackFunctionPointer = NULL;
-  Mock.SPI_TXByte_CallbackCalls = 0;
-  Mock.GPIO_SetPin_CallbackFunctionPointer = NULL;
-  Mock.GPIO_SetPin_CallbackCalls = 0;
-  Mock.GPIO_ResetPin_CallbackFunctionPointer = NULL;
-  Mock.GPIO_ResetPin_CallbackCalls = 0;
-  Mock.HAL_Delay_CallbackFunctionPointer = NULL;
-  Mock.HAL_Delay_CallbackCalls = 0;
   GlobalExpectCount = 0;
   GlobalVerifyOrder = 0;
 }
@@ -159,9 +164,11 @@ void SPI_TXBuffer(uint8_t* buffer, uint32_t len)
     UNITY_CLR_DETAILS();
     return;
   }
-  if (Mock.SPI_TXBuffer_CallbackFunctionPointer != NULL)
+  if (!Mock.SPI_TXBuffer_CallbackBool &&
+      Mock.SPI_TXBuffer_CallbackFunctionPointer != NULL)
   {
     Mock.SPI_TXBuffer_CallbackFunctionPointer(buffer, len, Mock.SPI_TXBuffer_CallbackCalls++);
+    UNITY_CLR_DETAILS();
     return;
   }
   UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
@@ -181,9 +188,14 @@ void SPI_TXBuffer(uint8_t* buffer, uint32_t len)
     UNITY_SET_DETAILS(CMockString_SPI_TXBuffer,CMockString_len);
     UNITY_TEST_ASSERT_EQUAL_HEX32(cmock_call_instance->Expected_len, len, cmock_line, CMockStringMismatch);
   }
+  if (Mock.SPI_TXBuffer_CallbackFunctionPointer != NULL)
+  {
+    Mock.SPI_TXBuffer_CallbackFunctionPointer(buffer, len, Mock.SPI_TXBuffer_CallbackCalls++);
+  }
   UNITY_CLR_DETAILS();
 }
 
+void CMockExpectParameters_SPI_TXBuffer(CMOCK_SPI_TXBuffer_CALL_INSTANCE* cmock_call_instance, uint8_t* buffer, uint32_t len);
 void CMockExpectParameters_SPI_TXBuffer(CMOCK_SPI_TXBuffer_CALL_INSTANCE* cmock_call_instance, uint8_t* buffer, uint32_t len)
 {
   cmock_call_instance->Expected_buffer = buffer;
@@ -206,12 +218,19 @@ void SPI_TXBuffer_CMockExpect(UNITY_LINE_TYPE cmock_line, uint8_t* buffer, uint3
   cmock_call_instance->LineNumber = cmock_line;
   cmock_call_instance->CallOrder = ++GlobalExpectCount;
   CMockExpectParameters_SPI_TXBuffer(cmock_call_instance, buffer, len);
-  UNITY_CLR_DETAILS();
 }
 
-void SPI_TXBuffer_StubWithCallback(CMOCK_SPI_TXBuffer_CALLBACK Callback)
+void SPI_TXBuffer_AddCallback(CMOCK_SPI_TXBuffer_CALLBACK Callback)
 {
   Mock.SPI_TXBuffer_IgnoreBool = (int)0;
+  Mock.SPI_TXBuffer_CallbackBool = (int)1;
+  Mock.SPI_TXBuffer_CallbackFunctionPointer = Callback;
+}
+
+void SPI_TXBuffer_Stub(CMOCK_SPI_TXBuffer_CALLBACK Callback)
+{
+  Mock.SPI_TXBuffer_IgnoreBool = (int)0;
+  Mock.SPI_TXBuffer_CallbackBool = (int)0;
   Mock.SPI_TXBuffer_CallbackFunctionPointer = Callback;
 }
 
@@ -227,9 +246,11 @@ void SPI_TXByte(uint8_t data)
     UNITY_CLR_DETAILS();
     return;
   }
-  if (Mock.SPI_TXByte_CallbackFunctionPointer != NULL)
+  if (!Mock.SPI_TXByte_CallbackBool &&
+      Mock.SPI_TXByte_CallbackFunctionPointer != NULL)
   {
     Mock.SPI_TXByte_CallbackFunctionPointer(data, Mock.SPI_TXByte_CallbackCalls++);
+    UNITY_CLR_DETAILS();
     return;
   }
   UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
@@ -242,9 +263,14 @@ void SPI_TXByte(uint8_t data)
     UNITY_SET_DETAILS(CMockString_SPI_TXByte,CMockString_data);
     UNITY_TEST_ASSERT_EQUAL_HEX8(cmock_call_instance->Expected_data, data, cmock_line, CMockStringMismatch);
   }
+  if (Mock.SPI_TXByte_CallbackFunctionPointer != NULL)
+  {
+    Mock.SPI_TXByte_CallbackFunctionPointer(data, Mock.SPI_TXByte_CallbackCalls++);
+  }
   UNITY_CLR_DETAILS();
 }
 
+void CMockExpectParameters_SPI_TXByte(CMOCK_SPI_TXByte_CALL_INSTANCE* cmock_call_instance, uint8_t data);
 void CMockExpectParameters_SPI_TXByte(CMOCK_SPI_TXByte_CALL_INSTANCE* cmock_call_instance, uint8_t data)
 {
   cmock_call_instance->Expected_data = data;
@@ -266,12 +292,19 @@ void SPI_TXByte_CMockExpect(UNITY_LINE_TYPE cmock_line, uint8_t data)
   cmock_call_instance->LineNumber = cmock_line;
   cmock_call_instance->CallOrder = ++GlobalExpectCount;
   CMockExpectParameters_SPI_TXByte(cmock_call_instance, data);
-  UNITY_CLR_DETAILS();
 }
 
-void SPI_TXByte_StubWithCallback(CMOCK_SPI_TXByte_CALLBACK Callback)
+void SPI_TXByte_AddCallback(CMOCK_SPI_TXByte_CALLBACK Callback)
 {
   Mock.SPI_TXByte_IgnoreBool = (int)0;
+  Mock.SPI_TXByte_CallbackBool = (int)1;
+  Mock.SPI_TXByte_CallbackFunctionPointer = Callback;
+}
+
+void SPI_TXByte_Stub(CMOCK_SPI_TXByte_CALLBACK Callback)
+{
+  Mock.SPI_TXByte_IgnoreBool = (int)0;
+  Mock.SPI_TXByte_CallbackBool = (int)0;
   Mock.SPI_TXByte_CallbackFunctionPointer = Callback;
 }
 
@@ -287,9 +320,11 @@ void GPIO_SetPin(uint16_t Port, uint16_t Pin)
     UNITY_CLR_DETAILS();
     return;
   }
-  if (Mock.GPIO_SetPin_CallbackFunctionPointer != NULL)
+  if (!Mock.GPIO_SetPin_CallbackBool &&
+      Mock.GPIO_SetPin_CallbackFunctionPointer != NULL)
   {
     Mock.GPIO_SetPin_CallbackFunctionPointer(Port, Pin, Mock.GPIO_SetPin_CallbackCalls++);
+    UNITY_CLR_DETAILS();
     return;
   }
   UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
@@ -306,9 +341,14 @@ void GPIO_SetPin(uint16_t Port, uint16_t Pin)
     UNITY_SET_DETAILS(CMockString_GPIO_SetPin,CMockString_Pin);
     UNITY_TEST_ASSERT_EQUAL_HEX16(cmock_call_instance->Expected_Pin, Pin, cmock_line, CMockStringMismatch);
   }
+  if (Mock.GPIO_SetPin_CallbackFunctionPointer != NULL)
+  {
+    Mock.GPIO_SetPin_CallbackFunctionPointer(Port, Pin, Mock.GPIO_SetPin_CallbackCalls++);
+  }
   UNITY_CLR_DETAILS();
 }
 
+void CMockExpectParameters_GPIO_SetPin(CMOCK_GPIO_SetPin_CALL_INSTANCE* cmock_call_instance, uint16_t Port, uint16_t Pin);
 void CMockExpectParameters_GPIO_SetPin(CMOCK_GPIO_SetPin_CALL_INSTANCE* cmock_call_instance, uint16_t Port, uint16_t Pin)
 {
   cmock_call_instance->Expected_Port = Port;
@@ -331,12 +371,19 @@ void GPIO_SetPin_CMockExpect(UNITY_LINE_TYPE cmock_line, uint16_t Port, uint16_t
   cmock_call_instance->LineNumber = cmock_line;
   cmock_call_instance->CallOrder = ++GlobalExpectCount;
   CMockExpectParameters_GPIO_SetPin(cmock_call_instance, Port, Pin);
-  UNITY_CLR_DETAILS();
 }
 
-void GPIO_SetPin_StubWithCallback(CMOCK_GPIO_SetPin_CALLBACK Callback)
+void GPIO_SetPin_AddCallback(CMOCK_GPIO_SetPin_CALLBACK Callback)
 {
   Mock.GPIO_SetPin_IgnoreBool = (int)0;
+  Mock.GPIO_SetPin_CallbackBool = (int)1;
+  Mock.GPIO_SetPin_CallbackFunctionPointer = Callback;
+}
+
+void GPIO_SetPin_Stub(CMOCK_GPIO_SetPin_CALLBACK Callback)
+{
+  Mock.GPIO_SetPin_IgnoreBool = (int)0;
+  Mock.GPIO_SetPin_CallbackBool = (int)0;
   Mock.GPIO_SetPin_CallbackFunctionPointer = Callback;
 }
 
@@ -352,9 +399,11 @@ void GPIO_ResetPin(uint16_t Port, uint16_t Pin)
     UNITY_CLR_DETAILS();
     return;
   }
-  if (Mock.GPIO_ResetPin_CallbackFunctionPointer != NULL)
+  if (!Mock.GPIO_ResetPin_CallbackBool &&
+      Mock.GPIO_ResetPin_CallbackFunctionPointer != NULL)
   {
     Mock.GPIO_ResetPin_CallbackFunctionPointer(Port, Pin, Mock.GPIO_ResetPin_CallbackCalls++);
+    UNITY_CLR_DETAILS();
     return;
   }
   UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
@@ -371,9 +420,14 @@ void GPIO_ResetPin(uint16_t Port, uint16_t Pin)
     UNITY_SET_DETAILS(CMockString_GPIO_ResetPin,CMockString_Pin);
     UNITY_TEST_ASSERT_EQUAL_HEX16(cmock_call_instance->Expected_Pin, Pin, cmock_line, CMockStringMismatch);
   }
+  if (Mock.GPIO_ResetPin_CallbackFunctionPointer != NULL)
+  {
+    Mock.GPIO_ResetPin_CallbackFunctionPointer(Port, Pin, Mock.GPIO_ResetPin_CallbackCalls++);
+  }
   UNITY_CLR_DETAILS();
 }
 
+void CMockExpectParameters_GPIO_ResetPin(CMOCK_GPIO_ResetPin_CALL_INSTANCE* cmock_call_instance, uint16_t Port, uint16_t Pin);
 void CMockExpectParameters_GPIO_ResetPin(CMOCK_GPIO_ResetPin_CALL_INSTANCE* cmock_call_instance, uint16_t Port, uint16_t Pin)
 {
   cmock_call_instance->Expected_Port = Port;
@@ -396,12 +450,19 @@ void GPIO_ResetPin_CMockExpect(UNITY_LINE_TYPE cmock_line, uint16_t Port, uint16
   cmock_call_instance->LineNumber = cmock_line;
   cmock_call_instance->CallOrder = ++GlobalExpectCount;
   CMockExpectParameters_GPIO_ResetPin(cmock_call_instance, Port, Pin);
-  UNITY_CLR_DETAILS();
 }
 
-void GPIO_ResetPin_StubWithCallback(CMOCK_GPIO_ResetPin_CALLBACK Callback)
+void GPIO_ResetPin_AddCallback(CMOCK_GPIO_ResetPin_CALLBACK Callback)
 {
   Mock.GPIO_ResetPin_IgnoreBool = (int)0;
+  Mock.GPIO_ResetPin_CallbackBool = (int)1;
+  Mock.GPIO_ResetPin_CallbackFunctionPointer = Callback;
+}
+
+void GPIO_ResetPin_Stub(CMOCK_GPIO_ResetPin_CALLBACK Callback)
+{
+  Mock.GPIO_ResetPin_IgnoreBool = (int)0;
+  Mock.GPIO_ResetPin_CallbackBool = (int)0;
   Mock.GPIO_ResetPin_CallbackFunctionPointer = Callback;
 }
 
@@ -417,9 +478,11 @@ void HAL_Delay(uint16_t ms)
     UNITY_CLR_DETAILS();
     return;
   }
-  if (Mock.HAL_Delay_CallbackFunctionPointer != NULL)
+  if (!Mock.HAL_Delay_CallbackBool &&
+      Mock.HAL_Delay_CallbackFunctionPointer != NULL)
   {
     Mock.HAL_Delay_CallbackFunctionPointer(ms, Mock.HAL_Delay_CallbackCalls++);
+    UNITY_CLR_DETAILS();
     return;
   }
   UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
@@ -432,9 +495,14 @@ void HAL_Delay(uint16_t ms)
     UNITY_SET_DETAILS(CMockString_HAL_Delay,CMockString_ms);
     UNITY_TEST_ASSERT_EQUAL_HEX16(cmock_call_instance->Expected_ms, ms, cmock_line, CMockStringMismatch);
   }
+  if (Mock.HAL_Delay_CallbackFunctionPointer != NULL)
+  {
+    Mock.HAL_Delay_CallbackFunctionPointer(ms, Mock.HAL_Delay_CallbackCalls++);
+  }
   UNITY_CLR_DETAILS();
 }
 
+void CMockExpectParameters_HAL_Delay(CMOCK_HAL_Delay_CALL_INSTANCE* cmock_call_instance, uint16_t ms);
 void CMockExpectParameters_HAL_Delay(CMOCK_HAL_Delay_CALL_INSTANCE* cmock_call_instance, uint16_t ms)
 {
   cmock_call_instance->Expected_ms = ms;
@@ -456,12 +524,19 @@ void HAL_Delay_CMockExpect(UNITY_LINE_TYPE cmock_line, uint16_t ms)
   cmock_call_instance->LineNumber = cmock_line;
   cmock_call_instance->CallOrder = ++GlobalExpectCount;
   CMockExpectParameters_HAL_Delay(cmock_call_instance, ms);
-  UNITY_CLR_DETAILS();
 }
 
-void HAL_Delay_StubWithCallback(CMOCK_HAL_Delay_CALLBACK Callback)
+void HAL_Delay_AddCallback(CMOCK_HAL_Delay_CALLBACK Callback)
 {
   Mock.HAL_Delay_IgnoreBool = (int)0;
+  Mock.HAL_Delay_CallbackBool = (int)1;
+  Mock.HAL_Delay_CallbackFunctionPointer = Callback;
+}
+
+void HAL_Delay_Stub(CMOCK_HAL_Delay_CALLBACK Callback)
+{
+  Mock.HAL_Delay_IgnoreBool = (int)0;
+  Mock.HAL_Delay_CallbackBool = (int)0;
   Mock.HAL_Delay_CallbackFunctionPointer = Callback;
 }
 

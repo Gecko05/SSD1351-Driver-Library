@@ -6,6 +6,7 @@
 - :test: test_SSD1351_write_pixel
   :line: 56
   :message: ''
+  :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
@@ -14,4 +15,4 @@
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.0036466900000959868
+:time: 0.003921726000044146
