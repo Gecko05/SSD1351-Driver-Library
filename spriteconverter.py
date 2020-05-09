@@ -6,12 +6,14 @@ def eprint(file, string):
 def convertsprites(spriteList):
     if spriteList == 0:
         return
-    cfile = open("src/loaded_sprites.c", "wb")
+    cfile = open("src/sprites.c", "wb")
     pfile = open("src/color_palette.c", "wb")
-    sfile = open("src/loaded_sprites.h", "wb")
+    sfile = open("src/sprites.h", "wb")
     c = 0
-    eprint(cfile, '#include "loaded_sprites.h"\n\n')
-    eprint(sfile, '#include "sprites.h"\n\n')
+    eprint(cfile, '#include "sprites.h"\n\n')
+    eprint(sfile, '#ifndef SPRITES_H\n#define SPRITES_H\n\n#include <stdlib.h>\n\
+    #include <stdint.h>\n\ntypedef struct Sprite{\n  const uint8_t *content;\
+    \n  uint8_t width;\n  uint8_t height;\n} sprite;\n\n')
     eprint(pfile,'#include "color_palette.h"\n' + \
     'uint16_t color_palette[256] = {\n')
     palette = 0
@@ -58,6 +60,7 @@ def convertsprites(spriteList):
           + ',\n  .content = ' + sprite_name + ',\n};\n\n')
         c = c + 1
     cfile.close()
+    eprint(sfile, '\n#endif // SPRITES_H')
     sfile.close()
     pfile.close()
     return
