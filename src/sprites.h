@@ -11,7 +11,5 @@ typedef struct Sprite{
 } sprite;
 
 sprite sprite0;
-sprite sprite1;
-sprite sprite2;
 
 #endif // SPRITES_H
