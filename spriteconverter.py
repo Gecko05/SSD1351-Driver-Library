@@ -25,6 +25,7 @@ def convertsprites(spriteList):
         width = data[18]
         height = data[22]
         if width > 128 or height > 128:
+            print("Sprite ",bmp," is too big to use\n")
             continue
         # Generate color palette
         if palette == 0:
