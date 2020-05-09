@@ -11,9 +11,9 @@ def convertsprites(spriteList):
     sfile = open("src/sprites.h", "wb")
     c = 0
     eprint(cfile, '#include "sprites.h"\n\n')
-    eprint(sfile, '#ifndef SPRITES_H\n#define SPRITES_H\n\n#include <stdlib.h>\n\
-    #include <stdint.h>\n\ntypedef struct Sprite{\n  const uint8_t *content;\
-    \n  uint8_t width;\n  uint8_t height;\n} sprite;\n\n')
+    eprint(sfile, '#ifndef SPRITES_H\n#define SPRITES_H\n\n#include <stdlib.h>\
+                   \n#include <stdint.h>\n\ntypedef struct Sprite{\n  const uint8_t *content;\
+                   \n  uint8_t width;\n  uint8_t height;\n} sprite;\n\n')
     eprint(pfile,'#include "color_palette.h"\n' + \
     'uint16_t color_palette[256] = {\n')
     palette = 0

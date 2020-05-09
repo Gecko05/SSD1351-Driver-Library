@@ -1,11 +1,11 @@
 #ifndef SPRITES_H
 #define SPRITES_H
 
-#include <stdlib.h>
-    #include <stdint.h>
+#include <stdlib.h>                   
+#include <stdint.h>
 
 typedef struct Sprite{
-  const uint8_t *content;    
+  const uint8_t *content;                   
   uint8_t width;
   uint8_t height;
 } sprite;
