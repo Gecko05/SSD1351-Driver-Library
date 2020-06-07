@@ -3,7 +3,7 @@ import color as clr
 def eprint(file, string):
     file.write(string.encode('utf8'))
 
-def convertsprites(spriteList):
+def convertsprites(spriteList, picoType):
     if spriteList == 0:
         return
     cfile = open("src/sprites.c", "wb")

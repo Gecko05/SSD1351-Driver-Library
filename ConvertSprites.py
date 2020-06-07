@@ -1,11 +1,15 @@
-import color as clr
-import spriteconverter as sp
+import sp
 import sys
 import os
 
 def printHelp():
     print("usage: python3 ConvertSprites.py [spriteName1.bmp] ... [sprinteNameN.bmp]\
-           \n-h    : print this help message and exit (also --help)\n")
+           \n-h    : print this help message and exit (also --help)\
+           \n-p8   : extract tileset from a .p8 file\
+           \n")
+
+def printError():
+    print("Argument error\n")
 
 try:
     os.remove("src/loaded_sprites.c")
@@ -18,5 +22,9 @@ if sys.argv[1][0] == '-':
         printHelp()
     elif sys.argv[1] == '--help':
         printHelp()
+    elif sys.argv[1] == '-p8' and len(sys.argv) <= 3:
+        sp.convertsprites(sys.argv, True) #It's a .p8 file
+    else:
+        printError()
 else:
-    sp.convertsprites(sys.argv)
+    sp.convertsprites(sys.argv, False)
