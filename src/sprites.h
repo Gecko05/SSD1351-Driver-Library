@@ -10,6 +10,6 @@ typedef struct Sprite{
   uint8_t height;
 } sprite;
 
-sprite sprite0;
+extern sprite sprite0;
 
 #endif // SPRITES_H
