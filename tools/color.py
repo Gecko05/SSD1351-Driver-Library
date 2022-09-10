@@ -1,3 +1,6 @@
+# This function can convert a hexadecimal color value
+# to a format that the C library can understand.
+
 def encodecolor(colorhex):
     encoded = 0
     blue = (colorhex & 0xFF0000) >> 16

@@ -1,3 +1,6 @@
+# Use this CLI tool to convert bitmap images to sprite files that the
+# C library can use.
+
 import sp
 import sys
 import os
