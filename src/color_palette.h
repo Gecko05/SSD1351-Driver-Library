@@ -3,6 +3,6 @@
 
 #include "stdint.h"
 
-uint16_t color_palette[256];
+extern uint16_t color_palette[256];
 
 #endif // COLOR_PALETTE_H
