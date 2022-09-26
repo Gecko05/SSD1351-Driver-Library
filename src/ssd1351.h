@@ -1,9 +1,17 @@
-/*
-     Driver library for the SSD1351 OLED Display developed by Jaime Centeno(Gecko05)
-                             https://github.com/Gecko05
-     Designed to be of generic use under a Hardware Abstraction Layer
-     fonts.c and fonts.h based on ssd1306-stm32HAL by Olivier Van den Eede(4ilo)
- */
+//MIT License
+//Copyright (c) 2022 Jaime Centeno
+//Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
+// documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
+// the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and 
+// to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+//The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 
 #ifndef SSD1351_H
 #define SSD1351_H
@@ -18,34 +26,39 @@
 #include "sprites.h"
 #include "color_palette.h"
 
-/*------- CONFIGURE THIS TO YOUR OWN HARDWARE AND HAL -------*/
-// PC0 = RESET      PC1 = D/C#      PB0 = CS
+/*------- CONFIGURE THIS TO YOUR OWN HARDWARE AND HARDWARE ABSTRACTION LAYER -------*/
 
-#include "myHAL.h"   
-// Provide your own HAL SPI Communication definitions in myHAL.h as
+// Provide your own HAL SPI Communication definitions in myHAL.h/myHAL.c as
 // SPI_TXByte(data) and SPI_TXBuffer(buffer, len)
 // and GPIO_SetPin(PORT, PIN) GPIO_ResetPin(PORT, PIN)
+#include "myHAL.h"
 
-#define RESET_PORT GPIOC
-#define RESET_PIN GPIO_PIN_0
-#define DC_PORT GPIOC
-#define DC_PIN  GPIO_PIN_1
-#define CS_PORT GPIOB
-#define CS_PIN GPIO_PIN_0
-#define SPI_TIMEOUT 1
+// Uncomment and define the ports and pins for your hardware
+// following your HAL ports/pins definitions
+// In this example: 
+// PC0 = RESET      PC1 = D/C#      PB0 = CS
+
+//#define RESET_PORT GPIOC
+//#define RESET_PIN  GPIO_PIN_0
+//#define DC_PORT    GPIOC
+//#define DC_PIN     GPIO_PIN_1
+//#define CS_PORT    GPIOB
+//#define CS_PIN     GPIO_PIN_0
+
 #define OLED_128x128
 
-/* Definitions for SPI functions */
+// Definitions for SPI functions 
 #define SSD1351_SendBuffer(buffer, len) SPI_TXBuffer(buffer, len)
 #define SSD1351_SendByte(data) SPI_TXByte(data)
 
-/* Definitions for GPIO pin functions */
+// Definitions for GPIO pin functions
 #define SSD1351_SetPin(PORT, PIN) GPIO_SetPin(PORT, PIN)
 #define SSD1351_ClearPin(PORT, PIN) GPIO_ResetPin(PORT, PIN)
 
-/* Definition for delay function */
+// Definition for delay function
 #define SSD1351_DelayMs(x) HAL_Delay(x)
-/*--------------------------------------------------*/
+
+/*------------------- END OF HARDWARE CONFIGURATION ------------------------------- */
 
 // Static definition for testing purposes on Ceedling
 #ifdef TEST
@@ -66,7 +79,7 @@ typedef union DisplayRAM{
   uint16_t halfw[DRAM_SIZE_16];
 } DRAM;
 
-//          SSD1351 Commands
+// SSD1351 Commands
 #define SSD1351_CMD_SETCOLUMN       0x15
 #define SSD1351_CMD_SETROW          0x75
 #define SSD1351_CMD_WRITERAM        0x5C
@@ -99,7 +112,7 @@ typedef union DisplayRAM{
 #define SSD1351_CMD_STOPSCROLL      0x9E
 #define SSD1351_CMD_STARTSCROLL     0x9F
 
-//           Some color definitions
+// Some color definitions
 #define COLOR_BLUE 0x00F8
 #define COLOR_RED 0x1F00
 #define COLOR_GREEN 0xE007
