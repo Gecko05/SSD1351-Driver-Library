@@ -29,6 +29,11 @@ Loaded_sprites.c, Loaded_sprites.h and color_palette.c files will be generated w
 
 Note that the color palette used in Aseprite will be translated to the equivalent colors under the library's color mode and this will be performed just once, so make sure to use the same palette across all the sprites.
 
+# Examples
+
+Check the releases to find a sample project that uses this library for the following boards:
+* [ST Nucleo L152RE](https://github.com/Gecko05/SSD1351-Driver-Library/releases)
+
 # Demo
 
 Sample code includes three demos; printing, lines, circles and a sprite
@@ -80,7 +85,6 @@ int main(){
     //          D E M O    R E C T A N G L E S
       for (int i = 128; i > 0;i-=12){
       SSD1351_draw_filled_rect( 64 - i/2, 64 - i/2, i, i, 0x1111 + rand());
-      SSD1351_update();
     }
 #endif // DEMO_RECTANGLES
 #ifdef DEMO_CIRCLES
@@ -126,10 +130,6 @@ int main(){
 SSD1351_draw_sprite(0, 0, &sprite0);
 #endif // DEMO_SPRITES
     SSD1351_update();
-    if (!HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin)){
-      SSD1351_stop();
-      while(1);
-    }
   }
 }
 ```
