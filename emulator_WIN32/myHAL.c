@@ -1,25 +1,23 @@
 #include "myHAL.h"
-
-// For demonstration purposes
-#include "stdio.h"
+#include "socketSPI.h"
 
 #ifdef _WIN64
 #include "time.h"
 
 void SPI_TXBuffer(uint8_t *buffer, uint32_t len) {
-    printf("I'm sending a buffer\n");
+    socketSPISendData(buffer, len);
 }
 
-void SPI_TXByte(uint8_t* data) {
-    printf("I'm sending a byte\n");
+void SPI_TXByte(uint8_t data) {
+    socketSPISendData(&(uint8_t){data}, 1);
 }
 
 void GPIO_SetPin(uint16_t Port, uint16_t Pin) {
-    printf("I'm setting a pin\n");
+    // do nothing
 }
 
 void GPIO_ResetPin(uint16_t Port, uint16_t Pin) {
-    printf("I'm resetting a pin\n");
+    // do nothing
 }
 
 void HAL_Delay(uint16_t ms) {
@@ -29,5 +27,9 @@ void HAL_Delay(uint16_t ms) {
         // wait
         elapsed = clock() - start;
     }
+}
+
+void closeEmulatorSocket() {
+    closeSocketSPI();
 }
 #endif
