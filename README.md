@@ -42,7 +42,7 @@ An emulator written in Go is located under SSD1351_Emulator. To use it simply ru
 go run .
 ```
 It will open a socket on port 9988 and listen for incoming screen data. To see it in action, simply compile and run the program under example_with_emulator_WIN.
-Not that this example program runs only on Windows.
+Note that this example program runs only on Windows.
 
 See the releases section if you're only interested in the binaries for both the demo program and the emulator.
 [Emulator and example binaries](https://github.com/Gecko05/SSD1351-Driver-Library/releases/tag/v1.1.0)
