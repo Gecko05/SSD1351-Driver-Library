@@ -25,8 +25,8 @@ int main(){
     //          D E M O    P R I N T
     SSD1351_set_cursor(0, 0);
     SSD1351_printf(SSD1351_get_rgb(r, g, b), med_font, "Hello worldI spent \n%i %s\n", 17, "dollars");
-    SSD1351_printf(COLOR_RED, small_font, "\nIn this screen");
-    SSD1351_printf(SSD1351_get_rgb(245, 255, 20), big_font, "\nSTM32");
+    SSD1351_printf(COLOR_RED, small_font, "\nfor this");
+    SSD1351_printf(SSD1351_get_rgb(245, 255, 20), big_font, "\nSSD1351");
     if (gd){
       g+=3;
       b-=3;
@@ -44,7 +44,7 @@ int main(){
 #endif // DEMO_PRINT
 #ifdef DEMO_RECTANGLES
     //          D E M O    R E C T A N G L E S
-      for (int i = 128; i > 0;i-=12){
+    for (int i = 128; i > 0;i-=12){
       SSD1351_draw_filled_rect( 64 - i/2, 64 - i/2, i, i, 0x1111 + rand());
     }
 #endif // DEMO_RECTANGLES
@@ -91,5 +91,6 @@ int main(){
 SSD1351_draw_sprite(0, 0, &sprite0);
 #endif // DEMO_SPRITES
     SSD1351_update();
+    HAL_Delay(33);
   }
 }
