@@ -33,17 +33,17 @@
 // and GPIO_SetPin(PORT, PIN) GPIO_ResetPin(PORT, PIN)
 #include "myHAL.h"
 
-// Uncomment and define the ports and pins for your hardware
+// Define the ports and pins for your hardware
 // following your HAL ports/pins definitions
 // In this example: 
 // PC0 = RESET      PC1 = D/C#      PB0 = CS
 
-//#define RESET_PORT GPIOC
-//#define RESET_PIN  GPIO_PIN_0
-//#define DC_PORT    GPIOC
-//#define DC_PIN     GPIO_PIN_1
-//#define CS_PORT    GPIOB
-//#define CS_PIN     GPIO_PIN_0
+#define RESET_PORT GPIOC
+#define RESET_PIN  GPIO_PIN_0
+#define DC_PORT    GPIOC
+#define DC_PIN     GPIO_PIN_1
+#define CS_PORT    GPIOB
+#define CS_PIN     GPIO_PIN_0
 
 #define OLED_128x128
 
