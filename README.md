@@ -1,12 +1,12 @@
 # SSD1351 Driver Library
-Driver library for the SSD1351 128x128 RGB OLED Display intended for generic use under C in any microcontroller.
-Unit testing is implemented with Ceedling.
+Driver library for the SSD1351 128x128 RGB OLED Display intended for generic use with C in any microcontroller/device.
+Includes an emulator to run and test programs that use this library on Windows.
 
 *Remember to configure the ssd1351.h file GPIO, SPI definitions according to your own hardware*
 
 [Check the blog entry](https://gecko05.github.io/2019/06/23/rgb-library.html)
 
-Added support for:
+Features:
 * Drawing sprites
 * Importing sprites from a .bmp file made in Aseprite
 * Formatted string printing
@@ -16,6 +16,7 @@ Added support for:
 * Drawing circles and filled circles
 * Display configuration
 * RGB color encoding
+* Screen emulator for Windows
 
 To Do:
 * Extend Display configurations such as color depth, frequency, etc.
@@ -33,6 +34,17 @@ Note that the color palette used in Aseprite will be translated to the equivalen
 
 Check the releases to find a sample project that uses this library for the following boards:
 * [ST Nucleo L152RE](https://github.com/Gecko05/SSD1351-Driver-Library/releases)
+
+# Running the emulator
+
+An emulator written in Go is located under SSD1351_Emulator. To use it simply run the following command inside the directory:
+```
+go run .
+```
+It will open a socket on port 9988 and listen for incoming screen data. To see it in action, simply compile and run the program under example_with_emulator_WIN.
+Not that this example program runs only on Windows.
+
+See the releases section if you're only interested in the binaries for both the example program and the emulator.
 
 # Demo
 
@@ -81,7 +93,7 @@ int main(){
       gd = !gd;
     }
 #endif // DEMO_PRINT
-#ifdef DEMO RECTANGLES
+#ifdef DEMO_RECTANGLES
     //          D E M O    R E C T A N G L E S
       for (int i = 128; i > 0;i-=12){
       SSD1351_draw_filled_rect( 64 - i/2, 64 - i/2, i, i, 0x1111 + rand());

@@ -1,8 +1,8 @@
 CC = gcc
 SRC_DIR = ../src
-HAL_DIR = ../emulator_WIN32
+HAL_DIR = ../example_with_emulator_WIN
 CFLAGS = -Wextra -g -I$(SRC_DIR) -I.
-INCLUDE = -I../emulator_WIN32
+INCLUDE = -I../example_with_emulator_WIN
 DEPS = $(SRC_DIR)/ssd1351.h $(SRC_DIR)/fonts.h $(SRC_DIR)/sprites.h $(SRC_DIR)/color_palette.h $(HAL_DIR)/myHAL.h $(HAL_DIR)/socketSPI.h
 OBJS = $(SRC_DIR)/ssd1351.o $(SRC_DIR)/color_palette.o $(SRC_DIR)/fonts.o $(SRC_DIR)/sprites.o $(HAL_DIR)/myHAL.o $(HAL_DIR)/socketSPI.o
 
