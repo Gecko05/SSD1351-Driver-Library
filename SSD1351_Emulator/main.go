@@ -12,13 +12,10 @@ import (
 	"gioui.org/app"
 	"gioui.org/f32"
 
-	//"gioui.org/font/gofont"
 	"gioui.org/io/system"
 	"gioui.org/layout"
 	"gioui.org/op"
 	"gioui.org/op/paint"
-	//"gioui.org/text"
-	//"gioui.org/widget/material"
 )
 
 const (
@@ -35,12 +32,10 @@ func processClient(connection net.Conn) {
 	if err != nil {
 		fmt.Println("Error reading:", err.Error())
 	}
+	// Look for whole frames
 	if mLen == 32768 {
-		//fmt.Println("Got the perfect length")
 		screenBuffer = buffer[:32768]
 	}
-	//fmt.Println("Received: ", buffer[:mLen])
-	//_, err = connection.Write([]byte("Thanks! Got your message:"))
 	connection.Close()
 }
 
@@ -60,18 +55,14 @@ func initServer() {
 			fmt.Println("Error accepting: ", err.Error())
 			os.Exit(1)
 		}
-		//fmt.Println("client connected")
 		processClient(connection)
-		//if len(screenBuffer) == 32768 {
-		//break
-		//}
 	}
 }
 
 func main() {
 	go initServer()
 	go func() {
-		w := app.NewWindow()
+		w := app.NewWindow(app.Size(256, 256), app.MinSize(256, 256), app.MaxSize(256, 256))
 		go func() {
 			timer1 := time.NewTicker(time.Second / 30)
 			for {
@@ -88,15 +79,15 @@ func main() {
 	app.Main()
 }
 
-func drawImage(ops *op.Ops, img image.Image) {
+func drawImage(ops *op.Ops, img image.Image, w *app.Window) {
 	imageOp := paint.NewImageOp(img)
 	imageOp.Add(ops)
-	op.Affine(f32.Affine2D{}.Scale(f32.Pt(0, 0), f32.Pt(4, 4)))
+	t := op.Affine(f32.Affine2D{}.Scale(f32.Pt(0, 0), f32.Pt(2, 2)))
+	t.Push(ops)
 	paint.PaintOp{}.Add(ops)
 }
 
 func run(w *app.Window) error {
-	//th := material.NewTheme(gofont.Collection())
 	var ops op.Ops
 	for {
 		e := <-w.Events()
@@ -105,9 +96,6 @@ func run(w *app.Window) error {
 			return e.Err
 		case system.FrameEvent:
 			gtx := layout.NewContext(&ops, e)
-
-			//title := material.H1(th, "Hello, Judis")
-			//maroon := color.NRGBA{R: 127, G: 0, B: 0, A: 255}
 
 			minPoint := image.Point{0, 0}
 			maxPoint := image.Point{128, 128}
@@ -118,28 +106,18 @@ func run(w *app.Window) error {
 					// 1 1 1 1 2 2 2 2 3 3 3 3 4 4 4 4
 					// b b b b b g g g g g g r r r r r
 					r := screenBuffer[i+1] & 0x1F << 3
-					// E0FF
-					//r := uint8(0)
 					b := screenBuffer[i] & 0xF8
-					//g := uint8(0)
 					g := (((screenBuffer[i] & 0x07) << 4) | ((screenBuffer[i+1] & 0xE0) >> 5)) << 1
 					newColor := color.NRGBA{r, g, b, 255}
+					// The image is flipped horizontally
 					newI := 32767 - i
 					myImage.SetNRGBA((newI/2)%128, int((i/2)/128), newColor)
 				} else {
-					//fmt.Println("Wrong screenBuffer len: ", len(screenBuffer))
 					newColor := color.NRGBA{0, 200, 0, 255}
 					myImage.SetNRGBA((i/2)%128, int((i/2)/128), newColor)
 				}
-
-				//myImage.SetNRGBA(1, 0, newColor)
 			}
-
-			//fmt.Println(myImage)
-			drawImage(gtx.Ops, myImage)
-			//title.Color = maroon
-			//title.Alignment = text.Middle
-			//title.Layout(gtx)
+			drawImage(gtx.Ops, myImage, w)
 
 			e.Frame(gtx.Ops)
 		}
