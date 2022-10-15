@@ -37,7 +37,7 @@ Check the releases to find a sample project that uses this library for the follo
 
 # Running the emulator
 
-An emulator written in Go is located under SSD1351_Emulator. To use it simply run the following command inside the directory:
+An emulator written in Go is located under SSD1351_Emulator. To use it run the following command inside SSD1351_Emulator:
 ```
 go run .
 ```
