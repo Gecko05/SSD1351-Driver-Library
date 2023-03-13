@@ -432,33 +432,35 @@ void SSD1351_draw_filled_circle(int16_t xc, int16_t yc, uint16_t r, uint16_t col
   }
 }
 
-STATIC void SSD1351_write_char(uint16_t color, font_t font, char c){
-  uint16_t fd;
-  if ((COLUMNS <= SSD1351_cursor.x + font.width) || (ROWS <= SSD1351_cursor.y + font.height)){
+STATIC void SSD1351_write_char(uint16_t color, font_t* font, char c) {
+  if (!font || (COLUMNS <= SSD1351_cursor.x + font->width) || (ROWS <= SSD1351_cursor.y + font->height)){
     return;
   }
   if (c == '\n'){
     SSD1351_cursor.x = 127;
   }
   else{
-    for (int i = 0; i < font.height; i++){
-        fd = font.data[(c - 32) * font.height + i];
-        for (int j = 0; j < font.width; j++){
-          if ((fd << j) & 0x8000){
-            SSD1351_write_pixel(SSD1351_cursor.x + j, SSD1351_cursor.y + i, color);
-          }
+    for (int i = 0; i < font->height; i++) {
+      const uint16_t *fdata = (uint16_t*)font->data;
+      uint16_t col = ((c - font->first) * font->height);
+      uint16_t fd = fdata[col + i];
+      printf("%i ", col + i);
+      for (int j = 0; j < font->width; j++) {
+        if ((fd << j) & (0x1 << font->bits-1)) {
+          SSD1351_write_pixel(SSD1351_cursor.x + j, SSD1351_cursor.y + i, color);
         }
       }
+    }
   }
-  SSD1351_cursor.x += font.width;
-  if ((SSD1351_cursor.x + font.width >= 127) & (SSD1351_cursor.y + font.height <= 127)){
-    SSD1351_cursor.y = SSD1351_cursor.y + font.height + 2;
+  SSD1351_cursor.x += font->width;
+  if ((SSD1351_cursor.x + font->width >= 127) & (SSD1351_cursor.y + font->height <= 127)){
+    SSD1351_cursor.y = SSD1351_cursor.y + font->height + 2;
     SSD1351_cursor.x = 0;
   }
   return;
 }
 
-STATIC void SSD1351_write_string(uint16_t color, font_t font, char *line){
+STATIC void SSD1351_write_string(uint16_t color, font_t *font, char *line){
   if (line == NULL){
     return;
   }
@@ -468,7 +470,7 @@ STATIC void SSD1351_write_string(uint16_t color, font_t font, char *line){
   }
 }
 
-STATIC void SSD1351_write_int(uint16_t color, font_t font, int8_t n){
+STATIC void SSD1351_write_int(uint16_t color, font_t* font, int8_t n){
   char number[5];
   sprintf(number, "%i", n);
   SSD1351_write_string(color, font, number);
@@ -480,7 +482,7 @@ STATIC void SSD1351_write_int(uint16_t color, font_t font, int8_t n){
  * @param font: structure holding the type of font
  * @param format: formatted string
  */
-void SSD1351_printf(uint16_t color, font_t font, const char *format, ...){
+void SSD1351_printf(uint16_t color, font_t* font, const char *format, ...){
   if (format == NULL){
     return;
   }

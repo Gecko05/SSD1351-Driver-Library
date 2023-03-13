@@ -16,6 +16,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.*/
 
 #include "fonts.h"
+#include "ibm_vga.h"
 
 static const uint16_t Font7x10 [] = {
 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,  // sp
@@ -313,6 +314,8 @@ static const uint16_t Font16x26 [] = {
 
 //	Three font sizes
 
-font_t Font_7x10 = {7,10,Font7x10};
-font_t Font_11x18 = {11,18,Font11x18};
-font_t Font_16x26 = {16,26,Font16x26};
+font_t Font_7x10 = {7, 10, ' ', 16, (void*)&Font7x10};
+font_t Font_11x18 = {11, 18,' ',16, (void*)&Font11x18};
+font_t Font_16x26 = {16, 26, ' ', 16,(void*)&Font16x26};
+
+font_t IBMVGA_8x14 = {8,14,24,8,IBM_VGA_8x14};

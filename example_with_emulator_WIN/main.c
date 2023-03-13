@@ -2,7 +2,7 @@
 #include "math.h"
 #include "stdlib.h"
 
-#define DEMO_CIRCLES
+#define DEMO_PRINT
 
 int main(){
   SSD1351_init();
@@ -24,9 +24,9 @@ int main(){
 #ifdef DEMO_PRINT
     //          D E M O    P R I N T
     SSD1351_set_cursor(0, 0);
-    SSD1351_printf(SSD1351_get_rgb(r, g, b), med_font, "Hello worldI spent \n%i %s\n", 17, "dollars");
-    SSD1351_printf(COLOR_RED, small_font, "\nfor this");
-    SSD1351_printf(SSD1351_get_rgb(245, 255, 20), big_font, "\nSSD1351");
+    SSD1351_printf(SSD1351_get_rgb(r, g, b), &IBMVGA_8x14, "0");
+    //SSD1351_printf(COLOR_RED, med_font, "\nRGB");
+    //SSD1351_printf(SSD1351_get_rgb(245, g, 20), big_font, "\nSSD1351");
     if (gd){
       g+=3;
       b-=3;
