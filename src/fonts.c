@@ -312,7 +312,7 @@ static const uint16_t Font16x26 [] = {
 };
 
 //	Three font sizes
-
-font_t Font_7x10 = {7,10,Font7x10};
-font_t Font_11x18 = {11,18,Font11x18};
-font_t Font_16x26 = {16,26,Font16x26};
+//  32 is the number for the space char, but you can simply write the char instead, like ' '
+font_t Font_7x10 = {7, 10, 32, 16, (void*)&Font7x10};
+font_t Font_11x18 = {11, 18, 32,16, (void*)&Font11x18};
+font_t Font_16x26 = {16, 26, 32, 16, (void*)&Font16x26};
