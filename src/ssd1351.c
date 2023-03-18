@@ -433,7 +433,7 @@ void SSD1351_draw_filled_circle(int16_t xc, int16_t yc, uint16_t r, uint16_t col
 }
 
 STATIC void SSD1351_write_char(uint16_t color, font_t* font, char c) {
-  if (!font || (COLUMNS <= SSD1351_cursor.x + font->width) || (ROWS <= SSD1351_cursor.y + font->height)){
+  if (!font || !font->data || (COLUMNS <= SSD1351_cursor.x + font->width) || (ROWS <= SSD1351_cursor.y + font->height)){
     return;
   }
   if (c == '\n'){
@@ -441,10 +441,17 @@ STATIC void SSD1351_write_char(uint16_t color, font_t* font, char c) {
   }
   else{
     for (int i = 0; i < font->height; i++) {
-      const uint16_t *fdata = (uint16_t*)font->data;
+      uint16_t fd;
       uint16_t col = ((c - font->first) * font->height);
-      uint16_t fd = fdata[col + i];
-      printf("%i ", col + i);
+      if (font->bits == 8) {
+        const uint8_t *fdata = (uint8_t*)font->data;
+        fd = fdata[col + i];
+      }
+      else {
+        const uint16_t *fdata = (uint16_t*)font->data;
+        fd = fdata[col + i];
+      }
+
       for (int j = 0; j < font->width; j++) {
         if ((fd << j) & (0x1 << font->bits-1)) {
           SSD1351_write_pixel(SSD1351_cursor.x + j, SSD1351_cursor.y + i, color);

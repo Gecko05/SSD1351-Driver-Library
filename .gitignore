@@ -1,3 +1,7 @@
 *.o
 *.exe
 .vscode/settings.json
+SSD1351_Emulator/.vscode/settings.json
+tools/exampleSprite.bmp.import
+.vscode/c_cpp_properties.json
+.vscode/tasks.json

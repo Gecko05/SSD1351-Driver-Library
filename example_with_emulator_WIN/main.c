@@ -1,6 +1,10 @@
-#include "ssd1351.h" // Remember to configure this file to your own hardware
 #include "math.h"
 #include "stdlib.h"
+#include "stdint.h"
+
+#include "ssd1351.h" // Remember to configure this file to your own hardware
+#include "ibm_vga.h"
+font_t IBMVGA_8x14 = {8, 14, 0, 8, IBM_VGA_8x14};
 
 #define DEMO_PRINT
 
@@ -24,9 +28,9 @@ int main(){
 #ifdef DEMO_PRINT
     //          D E M O    P R I N T
     SSD1351_set_cursor(0, 0);
-    SSD1351_printf(SSD1351_get_rgb(r, g, b), &IBMVGA_8x14, "0");
-    //SSD1351_printf(COLOR_RED, med_font, "\nRGB");
-    //SSD1351_printf(SSD1351_get_rgb(245, g, 20), big_font, "\nSSD1351");
+    SSD1351_printf(SSD1351_get_rgb(r, g, b), &IBMVGA_8x14, "IBM_VGA FONT");
+    SSD1351_printf(COLOR_RED, med_font, "\nRGB OLED");
+    SSD1351_printf(SSD1351_get_rgb(245, g, 20), big_font, "\nSSD1351");
     if (gd){
       g+=3;
       b-=3;
