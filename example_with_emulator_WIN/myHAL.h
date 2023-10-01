@@ -15,6 +15,9 @@
 #define GPIO_PIN_3 3
 #define GPIO_PIN_4 4
 #define GPIO_PIN_5 5
+#define GPIO_PIN_6 6
+#define GPIO_PIN_7 7
+#define GPIO_PIN_8 8
 
 void SPI_TXBuffer(uint8_t *buffer, uint32_t len);
 

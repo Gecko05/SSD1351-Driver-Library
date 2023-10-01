@@ -39,5 +39,4 @@ typedef struct
 extern font_t	Font_7x10;
 extern font_t	Font_11x18;
 extern font_t	Font_16x26;
-extern font_t	IBMVGA_8x14;
 #endif // SSD1351_FONTS_H

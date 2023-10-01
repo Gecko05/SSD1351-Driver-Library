@@ -507,7 +507,7 @@ void SSD1351_draw_filled_circle(int16_t xc, int16_t yc, uint16_t r, uint16_t col
 }
 
 /* */
-STATIC void SSD1351_write_char(uint16_t color, font_t *font, char c)
+STATIC void SSD1351_write_char(uint16_t color, const font_t *font, char c)
 {
 	if(!font || !font->data || (COLUMNS <= SSD1351_cursor.x + font->width) || (ROWS <= SSD1351_cursor.y + font->height))
 	{
@@ -556,7 +556,7 @@ STATIC void SSD1351_write_char(uint16_t color, font_t *font, char c)
 }
 
 /* */
-STATIC void SSD1351_write_string(uint16_t color, font_t *font, char *line)
+STATIC void SSD1351_write_string(uint16_t color, const font_t *font, char *line)
 {
 	if(line == NULL)
 	{
@@ -571,7 +571,7 @@ STATIC void SSD1351_write_string(uint16_t color, font_t *font, char *line)
 }
 
 /* */
-STATIC void SSD1351_write_int(uint16_t color, font_t *font, int8_t n)
+STATIC void SSD1351_write_int(uint16_t color, const font_t *font, int8_t n)
 {
 	char	number[5];
 	sprintf(number, "%i", n);
@@ -584,7 +584,7 @@ STATIC void SSD1351_write_int(uint16_t color, font_t *font, int8_t n)
  * @param font: structure holding the type of font
  * @param format: formatted string
  */
-void SSD1351_printf(uint16_t color, font_t *font, const char *format, ...)
+void SSD1351_printf(uint16_t color, const font_t *font, const char *format, ...)
 {
 	if(format == NULL)
 	{

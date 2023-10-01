@@ -20,6 +20,7 @@
 #include <stdint.h>
 #include <math.h>
 #include <stdarg.h>
+
 #include "fonts.h"
 #include "sprites.h"
 #include "color_palette.h"
@@ -34,13 +35,14 @@
 // Define the ports and pins for your hardware
 // following your HAL ports/pins definitions
 // In this example:
-// PC0 = RESET      PC1 = D/C#      PB0 = CS
-#define RESET_PORT	GPIOC
-#define RESET_PIN	GPIO_PIN_0
-#define DC_PORT		GPIOC
-#define DC_PIN		GPIO_PIN_1
-#define CS_PORT		GPIOB
-#define CS_PIN		GPIO_PIN_0
+// PA8 = RESET      PB2 = D/C#      PB1 = CS
+
+#define RESET_PORT GPIOA
+#define RESET_PIN GPIO_PIN_8
+#define DC_PORT GPIOB
+#define DC_PIN  GPIO_PIN_2
+#define CS_PORT GPIOB
+#define CS_PIN GPIO_PIN_1
 
 #define OLED_128x128
 
@@ -146,7 +148,7 @@ void					SSD1351_draw_circle(int16_t xc, int16_t yc, uint16_t r, uint16_t color)
 
 void					SSD1351_draw_filled_circle(int16_t xc, int16_t yc, uint16_t r, uint16_t color);
 
-void					SSD1351_printf(uint16_t color, font_t *font, const char *format, ...);
+void					SSD1351_printf(uint16_t color, const font_t *font, const char *format, ...);
 
 void					SSD1351_set_cursor(uint8_t x, uint8_t y);
 
