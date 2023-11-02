@@ -12,7 +12,7 @@ require (
 	github.com/gioui/uax v0.2.1-0.20220819135011-cda973fac06d // indirect
 	github.com/go-text/typesetting v0.0.0-20220411150340-35994bc27a7b // indirect
 	golang.org/x/exp/shiny v0.0.0-20220906200021-fcb1a314c389 // indirect
-	golang.org/x/image v0.5.0 // indirect
-	golang.org/x/sys v0.0.0-20220825204002-c680a09ffe64 // indirect
-	golang.org/x/text v0.7.0 // indirect
+	golang.org/x/image v0.10.0 // indirect
+	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/text v0.11.0 // indirect
 )
